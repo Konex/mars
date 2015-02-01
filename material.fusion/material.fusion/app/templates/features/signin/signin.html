@@ -1,0 +1,101 @@
+<ion-view class="sign-in-form" title="Sign in">
+  <ion-content >
+
+  <iframe src="#/sink.html" name="sink" style="display:none"></iframe>
+  
+    <h1 class="title text-center balanced">Mars</h1>
+  
+    <form name="signInForm" class="sign-in-form" action="sink.html" target="sink" method="post" ng-controller="SignInCtrl" ng-submit="signin()" novalidate form-autofill-fix>
+
+        <label class="item item-input">
+            <i class="icon ion-person placeholder-icon"></i>
+            <input  type="text" 
+                    id="username"
+                    name="username"
+                    ng-minlength=4
+                    ng-maxlength=36
+                    required 
+                    title="1 to 36 characters"
+                    placeholder="Username" 
+                    ng-model="credentials.username"
+                    ng-focus>
+
+            <div class="error-container validation-error-show-hide" 
+                 ng-show="signInForm.username.$invalid && signInForm.submitted && !signInForm.username.$focused">
+                <small  class="error" 
+                        ng-show="signInForm.username.$error.required">
+                        Your name is required
+                </small>
+                <small  class="error" 
+                        ng-show="signInForm.username.$error.minlength">
+                        Your name is required to be at least 4 characters
+                </small>
+                <small  class="error" 
+                        ng-show="signInForm.username.$error.maxlength">
+                        Your name cannot be longer than 36 characters
+                </small>
+            </div>
+
+        </label>
+
+        <label class="item item-input">
+
+            <i class="icon ion-key placeholder-icon"></i>
+            <input  type="password" 
+                    id="password"
+                    name="password"
+                    ng-minlength=4
+                    ng-maxlength=36
+                    required 
+                    title="1 to 36 characters"
+                    placeholder="Password"
+                    ng-model="credentials.password"
+                    ng-focus>
+
+            <div class="error-container validation-error-show-hide" 
+                 ng-show="signInForm.password.$invalid && signInForm.submitted && !signInForm.password.$focused">
+                <small  class="error" 
+                        ng-show="signInForm.password.$error.required">
+                        Your password is required
+                </small>
+                <small  class="error" 
+                        ng-show="signInForm.password.$error.minlength">
+                        Your password is required to be at least 4 characters
+                </small>
+                <small  class="error" 
+                        ng-show="signInForm.password.$error.maxlength">
+                        Your password cannot be longer than 36 characters
+                </small>
+            </div>
+
+        </label>
+
+        <button type="submit" 
+                class="button button-block button-positive">
+            Sign in
+        </button>
+
+        <button type="submit" 
+                class="button button-block button-calm"
+                ng-click="googleSignin(user)">
+            Sign in with Google
+        </button>
+
+    </form>
+
+    <p class="text-center">
+      <a href="#/forgot-password">Forgot password</a>
+    </p>
+
+    <p class="text-center">
+      <a href="#/create-account">Create an account</a>
+    </p>
+
+  </ion-content>
+
+  <div class="bar bar-footer">
+      <button class="button button-clear">Konex</button>
+      <button class="button button-clear">Terms & conditions</button>
+  </div>
+
+</ion-view>

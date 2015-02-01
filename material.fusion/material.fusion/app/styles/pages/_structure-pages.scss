@@ -1,0 +1,16 @@
+@import "home/structure-home";
+@import "signin/structure-signin";
+
+
+.ionic-logo {
+  	display: block;
+  	margin: 15px auto;
+  	width: 96px;
+  	height: 96px;
+}
+
+.scroll-content {
+	margin-top: 0.1rem;
+	padding-left:  $form-padding;
+	padding-right: $form-padding; 
+}

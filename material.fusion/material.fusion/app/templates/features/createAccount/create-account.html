@@ -1,0 +1,42 @@
+<ion-view title="Create account">
+  <ion-content>
+
+    <p>
+      <h1 class="title text-center balanced">Carbone</h1>
+    </p>
+
+    <form name="createAccountForm" novalidate>
+      <label class="item item-input">
+        <i class="icon ion-person placeholder-icon"></i>
+        <input type="text" id="username" placeholder="Username"
+               ng-model="credentials.username">
+      </label>
+      <label class="item item-input">
+        <i class="icon ion-key placeholder-icon"></i>
+        <input type="password" id="password" placeholder="Password"
+               ng-model="credentials.password">
+      </label>
+      <label class="item item-input">
+        <i class="icon ion-key placeholder-icon"></i>
+        <input type="password" id="repeatPassword" placeholder="Repeat password"
+               ng-model="credentials.repeatPassword">
+      </label>
+      <label class="item item-input">
+        <i class="icon ion-email placeholder-icon"></i>
+        <input type="email" id="recoveryEmail" placeholder="Recovery email">
+      </label>
+      <div class="padding-horizontal">
+        <button type="submit" class="button button-block button-positive"
+          ng-click="createAccount(user)">
+          Create
+        </button>
+      </div>
+    </form>
+  </ion-content>
+
+  <div class="bar bar-footer bar-balanced">
+    <button class="button button-clear">Konex</button>
+    <button class="button button-clear">Terms & conditions</button>
+  </div>
+
+</ion-view>

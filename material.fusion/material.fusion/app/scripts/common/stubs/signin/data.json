@@ -1,0 +1,15 @@
+{
+    "value": [
+        {
+            "sessionId": "sdfsdfe_dsfser1223_dfsdf",
+            "id": "marcsofinowski", 
+            "avatarImageUrl": "imgages/me/marcsofinowski.png", 
+            "name": "Marc Sofinowski", 
+            "email": "marcsofinowski@email.com",
+            "roles": [
+                "admin",
+                "member"
+            ] 
+        }
+    ]
+}

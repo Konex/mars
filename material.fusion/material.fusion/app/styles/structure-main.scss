@@ -1,0 +1,14 @@
+@import "common/structure-common";
+@import "pages/structure-pages";
+
+
+#sideMenu {
+	margin-top:    3rem;
+	padding-left:  $form-padding;
+	padding-right: $form-padding; 
+}
+
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

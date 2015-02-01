@@ -1,0 +1,13 @@
+.no-underline a:hover, a:visited, a:link, a:active {
+    text-decoration: none;
+}	
+
+a {
+	color: $gray-dark;
+	text-decoration: none;
+	outline: 0;
+	
+	&:hover, &:focus {
+		color: $gray;
+	}
+}
