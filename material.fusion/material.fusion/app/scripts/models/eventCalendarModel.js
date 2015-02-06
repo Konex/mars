@@ -7,10 +7,11 @@ eventCalendarModel.factory('EventCalendarService', [
 
 	function(DataAccessService) {
 		var events = {};
+		var modelName = 'EventCalendarModel';
 
 		function getByKey(key) {
 			if (!events[key]) {
-				var event = DataAccessService.get('EventCalendar', key);
+				var event = DataAccessService.get(modelName, key);
 				events[key] = event;
 			}
 
@@ -19,7 +20,7 @@ eventCalendarModel.factory('EventCalendarService', [
 
 		function getAll() {
 			if (!events || events.length === 0) {
-				events = DataAccessService.getAll('EventCalendar');
+				events = DataAccessService.getAll(modelName);
 			}
 
 			return events;
@@ -30,13 +31,13 @@ eventCalendarModel.factory('EventCalendarService', [
 				events[key] = value;
 			}
 
-			DataAccessService.set('EventCalendar', key, value);
+			DataAccessService.set(modelName, key, value);
 		}
 
 		function removeByKey(key) {
 			if (events[key]) {
 				events[key] = null;
-				DataAccessService.remove('EventCalendar', key);
+				DataAccessService.remove(modelName, key);
 			}
 		}
 

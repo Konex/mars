@@ -11,7 +11,7 @@ dataAccessConfig.constant('ACCESS_MODE', {
 	local: 'local'
 });
 
-dataAccessConfig.constant('DATA_ACCESS_LEVEL', {
-	eventCalendarModel: ACCESS_MODE.api
+dataAccessConfig.constant('MODEL_DATA_ACCESS_MODE', {
+	EventCalendarModel: ACCESS_MODE.api
 	//TODO: add model access mode here
 });
