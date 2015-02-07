@@ -6,7 +6,7 @@ eventCalendarModel.factory('EventCalendarService', [
 	'DataAccessService',
 
 	function(DataAccessService) {
-		var events = {};
+		var events = [];
 		var modelName = 'EventCalendarModel';
 
 		function getByKey(key) {
@@ -19,10 +19,8 @@ eventCalendarModel.factory('EventCalendarService', [
 		}
 
 		function getAll() {
-			if (!events || events.length === 0) {
-				events = DataAccessService.getAll(modelName);
-			}
-
+			events = DataAccessService.getAll(modelName);
+			if (!events) events = [];
 			return events;
 		}
 
