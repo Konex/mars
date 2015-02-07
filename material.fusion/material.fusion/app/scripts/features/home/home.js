@@ -1,7 +1,7 @@
 'use strict';
 
-var home = angular.module('home', [
-	'homeController'
+var home = angular.module('features.home', [
+	'features.homeController'
 ]);
 
 home.config([

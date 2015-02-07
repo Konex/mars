@@ -1,6 +1,6 @@
 'use strict';
 
-var pulse = angular.module('pulse', [
+var pulse = angular.module('features.pulse', [
 ]);
 
 pulse.config([

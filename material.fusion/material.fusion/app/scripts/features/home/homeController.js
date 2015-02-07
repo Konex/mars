@@ -1,5 +1,5 @@
 'use strict';
-var homeController = angular.module('homeController', []);
+var homeController = angular.module('features.homeController', []);
 
 
 var homeUi = {};

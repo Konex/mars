@@ -4,13 +4,10 @@ var mars = angular.module('Mars', [
     'ionic', 
     'config',
     'applicationController',
-    'common.security',
-    'signin', 
-    'home',
-    'pulse',
-    'follow',
-    'eventCalendar',
-    'LocalForageModule'
+    'common',
+    'dataAccess',
+    'models',
+    'features'
 ]);
 
 

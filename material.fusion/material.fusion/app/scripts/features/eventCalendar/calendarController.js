@@ -1,13 +1,16 @@
 'use strict';
 
-var calendarController = angular.module('calendarController', []);
+var calendarController = angular.module('features.calendarController', []);
+
+
+
+
 
 
 calendarController.controller('CalendarCtrl', [
 	'$scope',
-	'$localForage',
 	
-	function($scope, $localForage) {
+	function($scope) {
 		$scope.uiConfig = {
 	      calendar:{
 	        editable: true,

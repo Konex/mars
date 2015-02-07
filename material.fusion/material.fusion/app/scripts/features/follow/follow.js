@@ -1,6 +1,6 @@
 'use strict';
 
-var follow = angular.module('follow', [
+var follow = angular.module('features.follow', [
 ]);
 
 follow.config([

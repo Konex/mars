@@ -1,6 +1,6 @@
 'use strict';
 
-var signinController = angular.module('signin.controller', []);
+var signinController = angular.module('features.signinController', []);
 
 
 signinController.controller('SignInCtrl', [

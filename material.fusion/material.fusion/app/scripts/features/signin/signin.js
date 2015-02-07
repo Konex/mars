@@ -1,8 +1,8 @@
 'use strict';
 
-var signin = angular.module('signin', [
-  'signin.controller',
-  'signin.directives'
+var signin = angular.module('features.signin', [
+  'features.signinController',
+  'features.signinDirectives'
 ]);
 
 signin.config([

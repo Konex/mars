@@ -1,8 +1,8 @@
 'use strict';
 
-var eventCalendar = angular.module('eventCalendar', [
+var eventCalendar = angular.module('features.eventCalendar', [
 	'ui.calendar',
-	'calendarController'
+	'features.calendarController'
 ]);
 
 eventCalendar.config([

@@ -2,9 +2,19 @@
 
 var dataAccessService = angular.module('dataAccess.dataAccessService', []);
 
+var ACCESS_MODE = {
+	api:   'api',
+	local: 'local'
+};
+
+var MODEL_DATA_ACCESS_MODE = {
+	EventCalendarModel: ACCESS_MODE.api
+	//TODO: add model access mode here
+};	
+
 dataAccessService.factory('DataAccessService', [
-	'MODEL_DATA_ACCESS_MODE', 'ACCESS_MODE', 'LocalStorageService', 'ApiService',
-	function (MODEL_DATA_ACCESS_MODE, ACCESS_MODE, localStorageService, ApiService) {
+	'LocalStorageService', 'ApiService',
+	function (localStorageService, ApiService) {
 
 		function get(modelName, key) {
 			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
