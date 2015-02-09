@@ -2,7 +2,7 @@
 
 var calendarController = angular.module('features.calendarController', []);
 
-var ui = {};
+var uiControl = {};
 (function() {
 	var $scope, $timeout, $ionicPopup, eventCalendarService;
 
@@ -54,7 +54,8 @@ var ui = {};
 			          	// } else {
 			           //  	return $scope.data.wifi;
 			          	// }
-			          	
+			          	addEvent();
+			          	return;
 		        	}
 		      	}
 		    ]
@@ -63,10 +64,6 @@ var ui = {};
 	  	myPopup.then(function(res) {
 	    	console.log('Tapped!', res);
 	  	});
-	  	
-	  	// $timeout(function() {
-	   //   	myPopup.close(); //close the popup after 3 seconds for some reason
-	  	// }, 3000);
 	}
 
 	function addEvent() {
@@ -76,14 +73,17 @@ var ui = {};
 	    var y = date.getFullYear();
 
 		$scope.events.push({
+			id: '1',
 	        title: 'Open Sesame',
 	        start: new Date(y, m, 28),
 	        end: new Date(y, m, 29),
 	        className: ['openSesame']
       	});
+
+      	eventCalendarService.setByKey();
 	}
 
-	ui.init = init;
+	uiControl.init = init;
 })();
 
 
@@ -132,7 +132,7 @@ calendarController.controller('CalendarCtrl', [
 		$scope.eventSource = [];
 
 		pageLoad.init($scope, EventCalendarService);
-		ui.init($scope, $timeout, $ionicPopup, EventCalendarService);	
+		uiControl.init($scope, $timeout, $ionicPopup, EventCalendarService);	
 
 		$scope.eventSources = [$scope.events, $scope.eventSource];	
 	}

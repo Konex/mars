@@ -7,20 +7,47 @@ localStorageService.factory('LocalStorageService', ['$localForage',
 	function($localForage) {
 
 		function getItem(modelName, key) {
-			var res;
 			$localForage.getItem(modelName + key).then(function(data) {
-				res = data;
+				return data;
 			});
-
-			return res;
 		}
 
 		function setItem(modelName, key, value) {
-			$localForage.setItem(modelName + key);			
+			storeKey(modelName, key);			
+			$localForage.setItem(modelName + key, value);
+		}
+
+		function getAll(modelName) {
+			var keyStore = $localForage.getItem(modelName);
+			var res = [];
+
+			for(var prop in keyStore) {
+				if (keyStore.hasOwnProperty(prop)) {
+					var key = keyStore[prop];
+                      
+					$localForage.getItem(modelName + key).then(function(data) {
+						res.push(data);
+					});
+				}
+			}
+
+			return res;	
+		}
+
+		function storeKey(modelName, key) {
+			var keyStore = $localForage.getItem(modelName);
+
+			if (_.isUndefined(keyStore)) {
+				keyStore = {};
+			}
+
+			keyStore[key] = key;							 			
+			$localForage.setItem(modelName, keyStore);
 		}
 
 		return {
 			getItem: getItem,
-			setItem: setItem
+			setItem: setItem,
+			getAll: getAll
 		}
 }]);

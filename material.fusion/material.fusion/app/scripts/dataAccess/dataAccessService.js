@@ -33,7 +33,7 @@ dataAccessService.factory('DataAccessService', [
 		}
 
 		function getAll() {
-
+			
 		}
 
 		function remove() {
