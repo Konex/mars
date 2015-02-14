@@ -6,44 +6,47 @@ eventCalendarModel.factory('EventCalendarService', [
 	'DataAccessService',
 
 	function(DataAccessService) {
-		var events = [];
+		var eventArrayObj = {};
 		var modelName = 'EventCalendarModel';
 
-		function getByKey(key) {
-			if (!events[key]) {
-				var event = DataAccessService.get(modelName, key);
-				events[key] = event;
+		function get(key) {
+			if (!eventArrayObj[key]) {
+				var calenderEvent = DataAccessService.get(modelName, key);
+				eventArrayObj[key] = calenderEvent;
 			}
 
-			return events[key];
+			return eventArrayObj[key];
 		}
 
 		function getAll() {
-			events = DataAccessService.getAll(modelName);
-			if (!events) events = [];
+			var events = DataAccessService.getAll(modelName);
+			__updateModel(events);
 			return events;
 		}
 
-		function setByKey(key, value) {
-			if (!events[key]) {
-				events[key] = value;
-			}
-
+		function set(key, value) {
+			eventArrayObj[key] = value;
 			DataAccessService.set(modelName, key, value);
 		}
 
-		function removeByKey(key) {
-			if (events[key]) {
-				events[key] = null;
+		function remove(key) {
+			if (eventArrayObj[key]) {
+				delete eventArrayObj[key];
 				DataAccessService.remove(modelName, key);
 			}
 		}
 
+		function __updateModel(events) {
+			_.each(events, function(calenderEvent) {
+				eventArrayObj[calenderEvent.eventID] = calenderEvent;
+			});
+		}
+
 		return {
-			getByKey: getByKey,
-			getAll:   getAll,
-			setByKey: setByKey,
-			removeByKey: removeByKey   
+			get: get,
+			getAll: getAll,
+			set: set,
+			remove: remove   
 		};
 	}
 ]);

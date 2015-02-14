@@ -13,7 +13,7 @@ localStorageService.factory('LocalStorageService', ['$localForage',
 		}
 
 		function setItem(modelName, key, value) {
-			storeKey(modelName, key);			
+			__storeKey(modelName, key);			
 			$localForage.setItem(modelName + key, value);
 		}
 
@@ -34,12 +34,32 @@ localStorageService.factory('LocalStorageService', ['$localForage',
 			return res;	
 		}
 
-		function storeKey(modelName, key) {
+		function removeItem(modelName, key) {
+			__removeKey(modelName, key);
+			$localForage.removeItem(modelName + key);
+		}
+
+		function __removeKey(modelName, key) {
 			var keyStore = $localForage.getItem(modelName);
 
-			if (_.isUndefined(keyStore)) {
-				keyStore = {};
+			if (keyStore && keyStore.length > 0) {
+				var index = keyStore.indexOf(key);
+				if (index > -1) {
+					keyStore.splice(index, 1);
+
+					if(keyStore.length <= 0)
+						$localForage.removeItem(modelName);
+					else
+						$localForage.setItem(modelName, keyStore);
+				}
 			}
+		}
+
+		function __storeKey(modelName, key) {
+			var keyStore = $localForage.getItem(modelName);
+
+			if (!keyStore)
+				keyStore = {};
 
 			keyStore[key] = key;							 			
 			$localForage.setItem(modelName, keyStore);
@@ -48,6 +68,7 @@ localStorageService.factory('LocalStorageService', ['$localForage',
 		return {
 			getItem: getItem,
 			setItem: setItem,
-			getAll: getAll
+			getAll: getAll,
+			removeItem: removeItem
 		}
 }]);
