@@ -2,9 +2,9 @@
 
 var localStorageService = angular.module('dataAccess.localStorageService', []);
 
-localStorageService.factory('LocalStorageService', ['$localForage', 
+localStorageService.factory('LocalStorageService', ['$localForage', '$q', 
 
-	function($localForage) {
+	function($localForage, $q) {
 
 		function getItem(modelName, key) {
 			$localForage.getItem(modelName + key).then(function(data) {
@@ -18,20 +18,33 @@ localStorageService.factory('LocalStorageService', ['$localForage',
 		}
 
 		function getAll(modelName) {
-			var keyStore = $localForage.getItem(modelName);
-			var res = [];
+			var promises = [];
+			$localForage.getItem(modelName).then(function(data) {
+				var keyStore = data;
+				
+				// for(var prop in keyStore) {
+				// 	if (keyStore.hasOwnProperty(prop)) {
+				// 		//var deferred = $q.defer();
+				// 		var key = keyStore[prop];
+	                      
+				// 		$localForage.getItem(modelName + key).then(function(data) {
+				// 			deferred.resolve(data);
+				// 		});
 
-			for(var prop in keyStore) {
-				if (keyStore.hasOwnProperty(prop)) {
-					var key = keyStore[prop];
-                      
-					$localForage.getItem(modelName + key).then(function(data) {
-						res.push(data);
-					});
-				}
-			}
+				// 		promises.push(deferred);
+				// 	}
+				// }
 
-			return res;	
+				_.each(keyStore, function(prop) {
+					if (keyStore.hasOwnProperty(prop)) {
+						var key = keyStore[prop];
+						var promise = $localForage.getItem(modelName + key);
+						promises.push(promise);
+					}
+				});
+			});
+
+			return $q.all(promises);
 		}
 
 		function removeItem(modelName, key) {
@@ -40,29 +53,33 @@ localStorageService.factory('LocalStorageService', ['$localForage',
 		}
 
 		function __removeKey(modelName, key) {
-			var keyStore = $localForage.getItem(modelName);
+			$localForage.getItem(modelName).then(function(data) {
+				var keyStore = data;
+				
+				if (keyStore && keyStore.length > 0) {
+					var index = keyStore.indexOf(key);
+					if (index > -1) {
+						keyStore.splice(index, 1);
 
-			if (keyStore && keyStore.length > 0) {
-				var index = keyStore.indexOf(key);
-				if (index > -1) {
-					keyStore.splice(index, 1);
-
-					if(keyStore.length <= 0)
-						$localForage.removeItem(modelName);
-					else
-						$localForage.setItem(modelName, keyStore);
-				}
-			}
+						if(keyStore.length <= 0)
+							$localForage.removeItem(modelName);
+						else
+							$localForage.setItem(modelName, keyStore);
+					}
+				}	
+			});
 		}
 
 		function __storeKey(modelName, key) {
-			var keyStore = $localForage.getItem(modelName);
+			$localForage.getItem(modelName).then(function(data) {
+				var keyStore = data;
 
-			if (!keyStore)
-				keyStore = {};
+				if (!keyStore)
+					keyStore = {};
 
-			keyStore[key] = key;							 			
-			$localForage.setItem(modelName, keyStore);
+				keyStore[key] = key;							 			
+				$localForage.setItem(modelName, keyStore);	
+			});
 		}
 
 		return {

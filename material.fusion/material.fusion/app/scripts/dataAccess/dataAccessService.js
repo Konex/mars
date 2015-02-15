@@ -8,13 +8,13 @@ var ACCESS_MODE = {
 };
 
 var MODEL_DATA_ACCESS_MODE = {
-	EventCalendarModel: ACCESS_MODE.api
+	EventCalendarModel: ACCESS_MODE.local
 	//TODO: add model access mode here
 };	
 
 dataAccessService.factory('DataAccessService', [
-	'LocalStorageService', 'ApiService',
-	function (localStorageService, ApiService) {
+	'LocalStorageService', 'ApiService', '$q',
+	function (localStorageService, ApiService, $q) {
 
 		function get(modelName, key) {
 			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
@@ -26,18 +26,28 @@ dataAccessService.factory('DataAccessService', [
 
 		function set(modelName, key, value) {
 			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
-				localStorageService(modelName, key, value);
+				localStorageService.setItem(modelName, key, value);
 			} else {
 				// TODO: api call
 			}
 		}
 
-		function getAll() {
-			
+		function getAll(modelName) {
+			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
+				localStorageService.getAll(modelName).then(function(res) {
+					return res;
+				});
+			} else {
+				// TODO: api call
+			}	
 		}
 
 		function remove() {
-
+			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
+				localStorageService.removeItem(modelName, key);
+			} else {
+				// TODO: api call
+			}
 		}
 
 		return {

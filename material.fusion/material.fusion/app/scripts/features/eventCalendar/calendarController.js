@@ -16,6 +16,10 @@ var uiControl = {};
 		setConfig();
 	}
 
+	function setHandlers() {
+		$scope.onDayClick = onDayClick;
+	}
+
 	function setConfig() {
 		$scope.uiConfig = {
 			calendar:{
@@ -32,14 +36,10 @@ var uiControl = {};
 		};
 	}
 
-	function setHandlers() {
-		$scope.onDayClick = onDayClick;
-	}
-
 	function onDayClick(date, jsEvent, view) {
 		var myPopup = $ionicPopup.show({
 		    template: '<input type="password" ng-model="data.wifi">',
-		    title: 'Enter Wi-Fi Password',
+		    title: 'Enter New Event',
 		    subTitle: 'Please use normal things',
 		    scope: $scope,
 		    buttons: [
@@ -71,16 +71,22 @@ var uiControl = {};
 	    var d = date.getDate();
 	    var m = date.getMonth();
 	    var y = date.getFullYear();
-
-		$scope.events.push({
+	    var eventID = $scope.events.length + 1;
+	    var calendarEvent = {
 			id: '1',
-	        title: 'Open Sesame',
-	        start: new Date(y, m, 28),
-	        end: new Date(y, m, 29),
-	        className: ['openSesame']
-      	});
+	        title: 'Yini Test',
+	        start: new Date(y, m, d),
+	        end: new Date(y, m, d),
+	        className: ['openSesame'],
+	        eventID: eventID
+      	};  
 
-      	eventCalendarService.setByKey();
+		$scope.events.push(calendarEvent);
+		
+		if ($scope.eventSources.length == 0)
+			$scope.eventSources.push($scope.events);
+
+      	eventCalendarService.set(eventID, calendarEvent);
 	}
 
 	uiControl.init = init;
@@ -99,26 +105,12 @@ var pageLoad = {};
 	}
 
 	function loadData() {
-		//$scope.events = EventCalendarService.getAll(); 			
-
-		$scope.eventSource = {
-            url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
-            className: 'gcal-event',           // an option!
-            currentTimezone: 'America/Chicago' // an option!
-    	};
-
-    	var date = new Date();
-	    var d = date.getDate();
-	    var m = date.getMonth();
-	    var y = date.getFullYear();
-		$scope.events = [
-	      {title: 'All Day Event',start: new Date(y, m, 1)},
-	      {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-	      {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-	      {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-	      {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-	      {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-    	];
+		$scope.eventSources = [];
+		$scope.events = [];
+		
+		var events = eventCalendarService.getAll();
+		if (events && events.length > 0)
+			$scope.eventSources[$scope.events];
 	}
 
 	pageLoad.init = init;
@@ -128,12 +120,7 @@ calendarController.controller('CalendarCtrl', [
 	'$scope', '$timeout', '$ionicPopup', 'EventCalendarService',
 	
 	function($scope, $timeout, $ionicPopup, EventCalendarService) {
-		$scope.events = [];
-		$scope.eventSource = [];
-
 		pageLoad.init($scope, EventCalendarService);
-		uiControl.init($scope, $timeout, $ionicPopup, EventCalendarService);	
-
-		$scope.eventSources = [$scope.events, $scope.eventSource];	
+		uiControl.init($scope, $timeout, $ionicPopup, EventCalendarService);
 	}
 ]);
