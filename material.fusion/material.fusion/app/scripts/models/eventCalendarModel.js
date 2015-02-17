@@ -19,9 +19,12 @@ eventCalendarModel.factory('EventCalendarService', [
 		}
 
 		function getAll() {
-			var events = DataAccessService.getAll(modelName);
-			__updateModel(events);
-			return events;
+			var res = DataAccessService.getAll(modelName);
+			res.then(function(data) {
+				var events = data;
+				__updateModel(events);
+				return events;
+			});
 		}
 
 		function set(key, value) {

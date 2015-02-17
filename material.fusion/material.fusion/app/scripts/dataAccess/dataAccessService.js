@@ -34,8 +34,9 @@ dataAccessService.factory('DataAccessService', [
 
 		function getAll(modelName) {
 			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
-				localStorageService.getAll(modelName).then(function(res) {
-					return res;
+				var result = localStorageService.getAll(modelName);
+				result.then(function(data) {
+					return data;
 				});
 			} else {
 				// TODO: api call

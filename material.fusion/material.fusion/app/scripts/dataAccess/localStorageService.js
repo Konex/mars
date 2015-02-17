@@ -18,33 +18,24 @@ localStorageService.factory('LocalStorageService', ['$localForage', '$q',
 		}
 
 		function getAll(modelName) {
-			var promises = [];
+			var deferred = $q.defer();
+
 			$localForage.getItem(modelName).then(function(data) {
-				var keyStore = data;
-				
-				// for(var prop in keyStore) {
-				// 	if (keyStore.hasOwnProperty(prop)) {
-				// 		//var deferred = $q.defer();
-				// 		var key = keyStore[prop];
-	                      
-				// 		$localForage.getItem(modelName + key).then(function(data) {
-				// 			deferred.resolve(data);
-				// 		});
-
-				// 		promises.push(deferred);
-				// 	}
-				// }
-
-				_.each(keyStore, function(prop) {
+				var keyStore = data;	
+		    	var promises = [];
+		    	_.each(keyStore, function(prop) {
 					if (keyStore.hasOwnProperty(prop)) {
 						var key = keyStore[prop];
 						var promise = $localForage.getItem(modelName + key);
 						promises.push(promise);
 					}
 				});
+				$q.all(promises).then(function(results) {
+					deferred.resolve(results);
+				});
 			});
 
-			return $q.all(promises);
+			return deferred.promise;
 		}
 
 		function removeItem(modelName, key) {
