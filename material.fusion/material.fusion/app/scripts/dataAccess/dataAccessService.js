@@ -33,11 +33,14 @@ dataAccessService.factory('DataAccessService', [
 		}
 
 		function getAll(modelName) {
+			var deferred = $q.defer();
+
 			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
 				var result = localStorageService.getAll(modelName);
 				result.then(function(data) {
-					return data;
+					deferred.resolve(data);
 				});
+				return deferred.promise;
 			} else {
 				// TODO: api call
 			}	
