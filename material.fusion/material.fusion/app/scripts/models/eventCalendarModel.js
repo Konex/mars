@@ -3,9 +3,10 @@
 var eventCalendarModel = angular.module('models.eventCalendarModel', []);
 
 eventCalendarModel.factory('EventCalendarService', [
+	'$q',
 	'DataAccessService',
 
-	function(DataAccessService) {
+	function($q, DataAccessService) {
 		var eventArrayObj = {};
 		var modelName = 'EventCalendarModel';
 
@@ -19,11 +20,13 @@ eventCalendarModel.factory('EventCalendarService', [
 		}
 
 		function getAll() {
+			var deferred = $q.defer();
 			var result = DataAccessService.getAll(modelName);
 			result.then(function(data) {
 				__updateModel(data);
-				return data;
+				deferred.resolve(data);
 			});
+			return deferred.promise;
 		}
 
 		function set(key, value) {
