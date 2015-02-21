@@ -95,25 +95,27 @@ var uiControl = {};
 
 var pageLoad = {};
 (function() {
-	var $scope, $q, eventCalendarService;
+	var $scope, $q, uiCalendarConfig, eventCalendarService;
 
-	function init(_scope, _q, _eventCalendarService) {
+	function init(_scope, _q, _uiCalendarConfig, _eventCalendarService) {
 		$scope = _scope;
 		$q = _q;
+		uiCalendarConfig = _uiCalendarConfig;
 		eventCalendarService = _eventCalendarService;
 
 		loadData();
 	}
 
 	function loadData() {
-		//$scope.eventSources = [];
+		$scope.eventSources = [];
 		$scope.events = [];
+		$scope.eventSources = [$scope.events];
 		
 		var promise = eventCalendarService.getAll();
 		promise.then(function(data) {
-			$scope.events = data;
-			if ($scope.events.length > 0)
-				$scope.eventSources = [$scope.events];
+			_.each(data, function(event) {
+				$scope.events.push(event);
+			});
 		});
 	}
 
@@ -121,10 +123,10 @@ var pageLoad = {};
 })();
 
 calendarController.controller('CalendarCtrl', [
-	'$scope', '$q', '$timeout', '$ionicPopup', 'EventCalendarService',
+	'$scope', '$q', '$timeout', 'uiCalendarConfig', '$ionicPopup', 'EventCalendarService',
 	
-	function($scope, $q, $timeout, $ionicPopup, EventCalendarService) {
-		pageLoad.init($scope, $q, EventCalendarService);
+	function($scope, $q, $timeout, uiCalendarConfig, $ionicPopup, EventCalendarService) {
+		pageLoad.init($scope, $q, uiCalendarConfig, EventCalendarService);
 		uiControl.init($scope, $timeout, $ionicPopup, EventCalendarService);
 	}
 ]);
