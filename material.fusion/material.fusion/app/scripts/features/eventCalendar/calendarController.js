@@ -108,14 +108,10 @@ var pageLoad = {};
 
 	function loadData() {
 		$scope.eventSources = [];
-		$scope.events = [];
-		$scope.eventSources = [$scope.events];
 		
 		var promise = eventCalendarService.getAll();
 		promise.then(function(data) {
-			_.each(data, function(event) {
-				$scope.events.push(event);
-			});
+			$scope.eventSources.push(data);
 		});
 	}
 
