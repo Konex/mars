@@ -1,0 +1,48 @@
+
+<input class="item" type="text" placeholder="Enter titles, people and places" ng-model="event.title">
+
+<div id="newEvent" class="list">
+
+  <label class="item item-icon-left no-border">
+    <i class="icon ion-ios-calendar-outline"></i>
+    <input type="text" placeholder="event">
+  </label>
+
+  <div>
+	  <label id="allDay" class="item item-icon-left no-border">
+	    <i class="icon ion-ios-clock-outline"></i>
+	    <ion-toggle id="allDayToggle" ng-model="event.allday" toggle-class="toggle-calm">All day</ion-toggle>
+	  </label>
+  </div>
+
+  <label class="item item-icon-left no-border">
+    	<i class="icon ion-ios-location"></i>
+    	<input type="text" placeholder="Add location">
+  </label>
+
+  <label class="item item-icon-left no-border">
+    <i class="icon ion-ios-bell"></i>
+    <input type="text" placeholder="Notification">
+  </label>
+
+  <label class="item item-icon-left no-border">
+    	<i class="icon ion-person-stalker"></i>
+    	<input type="text" placeholder="Invite people">
+  </label>
+
+  <label class="item item-icon-left no-border">
+    	<i class="icon ion-paintbrush"></i>
+    	<input type="text" placeholder="Choose colour">
+  </label>
+
+  <label class="item item-icon-left no-border">
+    	<i class="icon ion-document"></i>
+    	<input type="text" placeholder="Add note">
+  </label>
+
+  <label class="item item-icon-left no-border">
+    	<i class="icon ion-paperclip"></i>
+    	<input type="text" placeholder="Add attachment">
+  </label>
+
+</div>

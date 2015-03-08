@@ -38,8 +38,8 @@ var uiControl = {};
 
 	function onDayClick(date, jsEvent, view) {
 		var myPopup = $ionicPopup.show({
-		    template: '<input type="password" ng-model="data.wifi">',
-		    title: 'Enter New Event',
+		    templateUrl: '/templates/features/eventCalendar/newEvent.html',
+		    title: 'New Event',
 		    subTitle: 'Please use normal things',
 		    scope: $scope,
 		    buttons: [
@@ -48,69 +48,71 @@ var uiControl = {};
 		        	text: '<b>Save</b>',
 		        	type: 'button-positive',
 		        	onTap: function(e) {
-			          	// if (!$scope.data.wifi) {
-			           //  	//don't allow the user to close unless he enters wifi password
-			           //  	e.preventDefault();
-			          	// } else {
-			           //  	return $scope.data.wifi;
-			          	// }
-			          	addEvent();
+			          	addEvent(date, jsEvent, view);
 			          	return;
 		        	}
 		      	}
 		    ]
 	  	});
-
-	  	myPopup.then(function(res) {
-	    	console.log('Tapped!', res);
-	  	});
 	}
 
-	function addEvent() {
-		var date = new Date();
-	    var d = date.getDate();
-	    var m = date.getMonth();
-	    var y = date.getFullYear();
-	    var eventID = $scope.events.length + 1;
+	function addEvent(date, jsEvent, view) {
+	    var eventID = $scope.events ? $scope.events.length + 1 : 1;
+	    var eventKey = $scope.events ? $scope.events.length + 1 : 1;
 	    var calendarEvent = {
-			id: '1',
+			id: eventID,
 	        title: 'Yini Test',
-	        start: new Date(y, m, d),
-	        end: new Date(y, m, d),
+	        start: date,
+	        end: date,
 	        className: ['openSesame'],
-	        eventID: eventID
+	        eventKey: eventKey
       	};  
 
 		$scope.events.push(calendarEvent);
 		
 		if ($scope.eventSources.length == 0)
-			$scope.eventSources = [$scope.events];
+			$scope.eventSources.push($scope.events);
 
-      	eventCalendarService.set(eventID, calendarEvent);
+        eventCalendarService.set(eventKey, calendarEvent);
 	}
 
 	uiControl.init = init;
 })();
 
 
+var eventHelper = {};
+(function () {
+
+	function getEventID () {
+
+	}
+
+	function getEventKey (maxNum) {
+
+	}
+
+	eventHelper.getEventID = getEventID;
+	eventHelper.getEventKey = getEventKey;
+})();
+
+
 var pageLoad = {};
 (function() {
-	var $scope, $q, uiCalendarConfig, eventCalendarService;
+	var $scope, $q, eventCalendarService;
 
-	function init(_scope, _q, _uiCalendarConfig, _eventCalendarService) {
+	function init(_scope, _q, _eventCalendarService) {
 		$scope = _scope;
 		$q = _q;
-		uiCalendarConfig = _uiCalendarConfig;
 		eventCalendarService = _eventCalendarService;
-
+		$scope.eventSources = [];
+		
 		loadData();
 	}
 
-	function loadData() {
-		$scope.eventSources = [];
-		
+	function loadData () {
 		var promise = eventCalendarService.getAll();
 		promise.then(function(data) {
+			$scope.events = data;
 			$scope.eventSources.push(data);
 		});
 	}
@@ -122,7 +124,7 @@ calendarController.controller('CalendarCtrl', [
 	'$scope', '$q', '$timeout', 'uiCalendarConfig', '$ionicPopup', 'EventCalendarService',
 	
 	function($scope, $q, $timeout, uiCalendarConfig, $ionicPopup, EventCalendarService) {
-		pageLoad.init($scope, $q, uiCalendarConfig, EventCalendarService);
+		pageLoad.init($scope, $q, EventCalendarService);
 		uiControl.init($scope, $timeout, $ionicPopup, EventCalendarService);
 	}
 ]);

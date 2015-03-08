@@ -1,3 +1,18 @@
 #calendar {
-	
+
+}
+
+.popup-container {
+	.popup {	
+		width:350px;
+	}
+}
+
+#newEvent {
+	input[type=text] {
+		height: 20px;
+	}
+	#allDayToggle, .no-border{
+		border: 0;
+	}
 }
