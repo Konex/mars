@@ -37,6 +37,8 @@ var uiControl = {};
 	}
 
 	function onDayClick(date, jsEvent, view) {
+		$scope.dateTapped = date;
+ 
 		var myPopup = $ionicPopup.show({
 		    templateUrl: '/templates/features/eventCalendar/newEvent.html',
 		    title: 'New Event',
