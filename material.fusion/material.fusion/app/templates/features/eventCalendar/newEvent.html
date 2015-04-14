@@ -13,9 +13,22 @@
         <i class="icon ion-ios-clock-outline"></i>
         <ion-toggle id="allDayToggle" ng-model="event.allday" toggle-class="toggle-calm">All day</ion-toggle>
     </label>
-    <a class="item no-border" href="#">
-        {{dateTapped}}
-    </a>
+    <label class="item item-icon-left no-border">
+        <a href="#">
+            {{::newEvent.startDate}}
+        </a>
+        <a href="#">
+            {{newEvent.startTime}}
+        </a>
+    </label>
+    <label class="item item-icon-left no-border">
+        <a href="#">
+            {{::newEvent.endDate}}
+        </a>
+        <a href="#">
+            {{newEvent.endTime}}
+        </a>
+    </label>
 
     <label class="item item-icon-left no-border">
     	<i class="icon ion-ios-location"></i>
