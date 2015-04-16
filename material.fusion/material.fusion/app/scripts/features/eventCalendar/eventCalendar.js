@@ -2,6 +2,7 @@
 
 var eventCalendar = angular.module('features.eventCalendar', [
 	'ui.calendar',
+	'angular-datepicker',
 	'features.calendarController'
 ]);
 

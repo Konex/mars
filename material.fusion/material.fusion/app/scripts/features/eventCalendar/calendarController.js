@@ -12,15 +12,22 @@ var uiControl = {};
 		$ionicPopup = _ionicPopup;
 		eventCalendarService = _EventCalendarService;
 
+		setDefaults();
 		setHandlers();
 		setConfig();
 	}
 
-	function setHandlers() {
+	function setDefaults () {
+		$scope.currentDate = new Date();
+	}
+	function setHandlers () {
 		$scope.onDayClick = onDayClick;
 	}
+	function setConfig () {
+		$scope.datePickerOptions = {
+			format: 'ddd, dd-mm-yyyy'
+		};
 
-	function setConfig() {
 		$scope.uiConfig = {
 			calendar:{
 		        editable: true,
@@ -35,7 +42,6 @@ var uiControl = {};
 	      	}
 		};
 	}
-
 	function onDayClick(date, jsEvent, view) {
 		$scope.newEvent = {};
 		$scope.newEvent.startDate = date.format();
@@ -61,7 +67,6 @@ var uiControl = {};
 		    ]
 	  	});
 	}
-
 	function addEvent(date, jsEvent, view) {
 	    var eventID = $scope.events ? $scope.events.length + 1 : 1;
 	    var eventKey = $scope.events ? $scope.events.length + 1 : 1;
