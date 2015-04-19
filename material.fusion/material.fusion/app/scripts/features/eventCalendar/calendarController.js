@@ -4,11 +4,12 @@ var calendarController = angular.module('features.calendarController', []);
 
 var uiControl = {};
 (function() {
-	var $scope, $timeout, $ionicPopup, eventCalendarService;
+	var $scope, $timeout, $ionicModal, $ionicPopup, eventCalendarService;
 
-	function init(_scope, _timeout, _ionicPopup, _EventCalendarService) {
+	function init(_scope, _timeout, _ionicModal, _ionicPopup, _EventCalendarService) {
 		$scope = _scope;
 		$timeout = _timeout;
+		$ionicModal = _ionicModal;
 		$ionicPopup = _ionicPopup;
 		eventCalendarService = _EventCalendarService;
 
@@ -22,6 +23,7 @@ var uiControl = {};
 	}
 	function setHandlers () {
 		$scope.onDayClick = onDayClick;
+		$scope.onClockClick = onClockClick;
 	}
 	function setConfig () {
 		$scope.datePickerOptions = {
@@ -42,7 +44,13 @@ var uiControl = {};
 	      	}
 		};
 	}
-	function onDayClick(date, jsEvent, view) {
+	function onClockClick () {
+		$('.clockpicker').clockpicker({
+            autoclose: true
+        });
+        $('#newEvent').append($('.clockpicker-popover'));
+	}
+ 	function onDayClick (date, jsEvent, view) {
 		$scope.newEvent = {};
 		$scope.newEvent.startDate = date.format();
 		$scope.newEvent.startTime = '00:00';
@@ -132,10 +140,10 @@ var pageLoad = {};
 })();
 
 calendarController.controller('CalendarCtrl', [
-	'$scope', '$q', '$timeout', 'uiCalendarConfig', '$ionicPopup', 'EventCalendarService',
+	'$scope', '$q', '$timeout', 'uiCalendarConfig', '$ionicModal', '$ionicPopup', 'EventCalendarService',
 	
-	function($scope, $q, $timeout, uiCalendarConfig, $ionicPopup, EventCalendarService) {
+	function($scope, $q, $timeout, uiCalendarConfig, $ionicModal, $ionicPopup, EventCalendarService) {
 		pageLoad.init($scope, $q, EventCalendarService);
-		uiControl.init($scope, $timeout, $ionicPopup, EventCalendarService);
+		uiControl.init($scope, $timeout, $ionicModal, $ionicPopup, EventCalendarService);
 	}
 ]);

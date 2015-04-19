@@ -2,36 +2,35 @@
 <input class="item" type="text" placeholder="Enter titles, people and places" ng-model="event.title">
 
 <div id="newEvent" class="list">
-
-  <label class="item item-icon-left no-border">
-    <i class="icon ion-ios-calendar-outline"></i>
-    <input type="text" placeholder="event">
-  </label>
-    <ion-list data-tap-disabled="true">
-
-            
-            <input type="text" pick-a-date="date" placeholder="Select Date"   /> {{ date }}
-            <input type="text" pick-a-time="time" placeholder="Select Time" /> {{ time }}
-            
-  </ion-list>
+    <label class="item item-icon-left no-border">
+        <i class="icon ion-ios-calendar-outline"></i>
+        <input type="text" placeholder="event">
+    </label>
     
     <label id="allDay" class="item item-icon-left no-border">
         <i class="icon ion-ios-clock-outline"></i>
         <ion-toggle id="allDayToggle" ng-model="event.allday" toggle-class="toggle-calm">All day</ion-toggle>
     </label>
-    <label class="item item-icon-left no-border">
-        
-        <a href="#">
-            {{::newEvent.startDate}}
-        </a>
+    
+    <ion-list data-tap-disabled="true">    
+        <input type="text" pick-a-date="date" placeholder="{{newEvent.startDate}}"/>
+
+           
+    </ion-list>
+
+    <input id="clock" ng-click="onClockClick()" type="text" class="clockpicker" value="09:30"> 
+    
+    <label class="item item-icon-left no-border">    
+        <button ng-click="modal.show()">
+            {{newEvent.startDate}}
+        </button>
         <a href="#">
             {{newEvent.startTime}}
         </a>
-
     </label>
     <label class="item item-icon-left no-border">
         <a href="#">
-            {{::newEvent.endDate}}
+            {{newEvent.endDate}}
         </a>
         <a href="#">
             {{newEvent.endTime}}
