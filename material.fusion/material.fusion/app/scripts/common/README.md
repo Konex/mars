@@ -1,0 +1,1 @@
+Only when a component appears three time in multiple places to be promoted into common

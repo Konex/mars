@@ -15,17 +15,18 @@ var uiControl = {};
 
 		setDefaults();
 		setHandlers();
-		setConfig();
+		setConfigs();
 	}
 
 	function setDefaults () {
 		$scope.currentDate = new Date();
 	}
 	function setHandlers () {
-		$scope.onDayClick = onDayClick;
-		$scope.onClockClick = onClockClick;
+		$scope.dayClick = dayClick;
+		$scope.clockClick = clockClick;
+		$scope.allDayToggleChange = allDayToggleChange;
 	}
-	function setConfig () {
+	function setConfigs () {
 		$scope.datePickerOptions = {
 			format: 'ddd, dd-mm-yyyy'
 		};
@@ -38,19 +39,29 @@ var uiControl = {};
 		         	center: 'title',
 		          	right: 'today prev,next'
 		        },
-		        dayClick: $scope.onDayClick,
+		        dayClick: $scope.dayClick,
 		        eventDrop: $scope.alertOnDrop,
 		        eventResize: $scope.alertOnResize
 	      	}
 		};
 	}
-	function onClockClick () {
+	function setTimePicker () {
 		$('.clockpicker').clockpicker({
             autoclose: true
         });
+        
         $('#newEvent').append($('.clockpicker-popover'));
 	}
- 	function onDayClick (date, jsEvent, view) {
+	function allDayToggleChange () {
+	} 
+	function clockClick () {
+		// $('.clockpicker').clockpicker({
+  //           autoclose: true
+  //       });
+  		//$timeout(function () {$('#newEvent').append($('.clockpicker-popover'));}, 500);
+        $('#newEvent').append($('.clockpicker-popover'));
+	}
+ 	function dayClick (date, jsEvent, view) {
 		$scope.newEvent = {};
 		$scope.newEvent.startDate = date.format();
 		$scope.newEvent.startTime = '00:00';

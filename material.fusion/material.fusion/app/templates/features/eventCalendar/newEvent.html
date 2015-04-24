@@ -9,33 +9,18 @@
     
     <label id="allDay" class="item item-icon-left no-border">
         <i class="icon ion-ios-clock-outline"></i>
-        <ion-toggle id="allDayToggle" ng-model="event.allday" toggle-class="toggle-calm">All day</ion-toggle>
+        <ion-toggle id="allDayToggle" ng-change="allDayToggleChange()" ng-model="event.allday" toggle-class="toggle-calm">All day</ion-toggle>
     </label>
     
     <ion-list data-tap-disabled="true">    
-        <input type="text" pick-a-date="date" placeholder="{{newEvent.startDate}}"/>
-
-           
+        <input class="white-background" type="text" pick-a-date="date" ng-model="newEvent.startDate" placeholder="{{newEvent.startDate}}"/>
+    
+        <input class="white-background" type="text" pick-a-date="date" ng-model="newEvent.endDate" placeholder="{{newEvent.endDate}}"/>    
     </ion-list>
 
-    <input id="clock" ng-click="onClockClick()" type="text" class="clockpicker" value="09:30"> 
-    
-    <label class="item item-icon-left no-border">    
-        <button ng-click="modal.show()">
-            {{newEvent.startDate}}
-        </button>
-        <a href="#">
-            {{newEvent.startTime}}
-        </a>
-    </label>
-    <label class="item item-icon-left no-border">
-        <a href="#">
-            {{newEvent.endDate}}
-        </a>
-        <a href="#">
-            {{newEvent.endTime}}
-        </a>
-    </label>
+    <input id="startTimeClock" ng-click="clockClick()" type="text" class="clockpicker" value="00:00">
+
+    <input id="endTimeClock" ng-click="clockClick()" type="text" class="clockpicker" value="01:00">
 
     <label class="item item-icon-left no-border">
     	<i class="icon ion-ios-location"></i>
