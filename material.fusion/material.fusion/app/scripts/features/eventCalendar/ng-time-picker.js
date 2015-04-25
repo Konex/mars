@@ -5,8 +5,9 @@ var marsTimePickerMudle = angular.module('marsTimePicker', []);
 
 var timePicker = {};
 (function (){
-	var elm;
-	function init (_elm) {
+	var scope, elm;
+	function init (_scope, _elm) {
+		scope = _scope;
 		elm = _elm;
 		$('.clockpicker').clockpicker({
             autoclose: true
@@ -667,6 +668,7 @@ var timePicker = {};
 		}
 		
 		this.input.prop('value', value);
+		scope.time = value;
 		if (value !== last) {
 			this.input.triggerHandler('change');
 			if (! this.isInput) {
@@ -677,6 +679,7 @@ var timePicker = {};
 		if (this.options.autoclose) {
 			this.input.trigger('blur');
 		}
+		scope.$apply();
 	};
 
 	// Remove clockpicker from input
@@ -730,9 +733,9 @@ marsTimePickerMudle
 		},
 		controller: 'timePickerController',
 		link: function (scope, elm, attrs, controller) {
-			timePicker.init(elm);
+			timePicker.init(scope, elm);
 		},
 		template:   
-				'<input type="text" class="clockpicker" ng-model="time" value="{{time}}">'
+				'<input type="text" class="clockpicker" value="{{time}}">'
 	};
 }]);

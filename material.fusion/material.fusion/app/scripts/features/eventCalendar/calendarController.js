@@ -20,7 +20,6 @@ var uiControl = {};
 
 	function setDefaults () {
 		$scope.currentDate = new Date();
-		$scope.startTime = "09:34"
 	}
 	function setHandlers () {
 		$scope.dayClick = dayClick;
