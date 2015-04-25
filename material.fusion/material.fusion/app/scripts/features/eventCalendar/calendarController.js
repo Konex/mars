@@ -20,6 +20,7 @@ var uiControl = {};
 
 	function setDefaults () {
 		$scope.currentDate = new Date();
+		$scope.startTime = "09:34"
 	}
 	function setHandlers () {
 		$scope.dayClick = dayClick;
@@ -59,7 +60,7 @@ var uiControl = {};
   //           autoclose: true
   //       });
   		//$timeout(function () {$('#newEvent').append($('.clockpicker-popover'));}, 500);
-        $('#newEvent').append($('.clockpicker-popover'));
+        //$('#newEvent').append($('.clockpicker-popover'));
 	}
  	function dayClick (date, jsEvent, view) {
 		$scope.newEvent = {};

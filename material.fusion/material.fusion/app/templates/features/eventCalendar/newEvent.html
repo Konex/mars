@@ -18,9 +18,11 @@
         <input class="white-background" type="text" pick-a-date="date" ng-model="newEvent.endDate" placeholder="{{newEvent.endDate}}"/>    
     </ion-list>
 
-    <input id="startTimeClock" ng-click="clockClick()" type="text" class="clockpicker" value="00:00">
+    <mars-time-picker time="startTime"></mars-time-picker>
 
-    <input id="endTimeClock" ng-click="clockClick()" type="text" class="clockpicker" value="01:00">
+    <!-- <input id="startTimeClock" ng-click="clockClick()" type="text" class="clockpicker" value="00:00">
+
+    <input id="endTimeClock" ng-click="clockClick()" type="text" class="clockpicker" value="01:00"> -->
 
     <label class="item item-icon-left no-border">
     	<i class="icon ion-ios-location"></i>

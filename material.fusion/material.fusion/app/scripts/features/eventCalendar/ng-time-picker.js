@@ -1,13 +1,16 @@
 'use strict';
 
-var marsTimePicker = angular.module('marsTimePicker', []);
+var marsTimePickerMudle = angular.module('marsTimePicker', []);
 
 
 var timePicker = {};
 (function (){
-
-	function init () {
-
+	var elm;
+	function init (_elm) {
+		elm = _elm;
+		$('.clockpicker').clockpicker({
+            autoclose: true
+        });
 	}
 
 	var $ = window.jQuery,
@@ -365,7 +368,7 @@ var timePicker = {};
 		fromnow: 0,          // set default time to * milliseconds from now (using with default = 'now')
 		placement: 'bottom', // clock popover placement
 		align: 'left',       // popover arrow align
-		donetext: '完成',    // done button text
+		donetext: 'Done',    // done button text
 		autoclose: false,    // auto close when minute is selected
 		twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
 		vibrate: true        // vibrate the device when dragging clock hand
@@ -380,7 +383,7 @@ var timePicker = {};
 	ClockPicker.prototype.locate = function(){
 		var element = this.element,
 			popover = this.popover,
-			position = element.position(); // popover sits inside a modal so use position that is relative to its parent   
+			position = element.position(), // popover sits inside a modal so use position that is relative to its parent   
 										 // instead of offset
 			width = element.outerWidth(),
 			height = element.outerHeight(),
@@ -438,7 +441,9 @@ var timePicker = {};
 		// Initialize
 		if (! this.isAppended) {
 			// Append popover to body
-			$body = $(document.body).append(this.popover);
+			//$body = $(document.body).append(this.popover);
+			// append to its correspondant input box instead of docoment body
+			$body = elm.append(this.popover);
 
 			// Reset position when resize
 			$win.on('resize.clockpicker' + this.id, function(){
@@ -689,7 +694,7 @@ var timePicker = {};
 	};
 
 	// Extends $.fn.clockpicker
-	$.fn.clockpicker = function(option){
+	$.fn.clockpicker = function(option) {
 		var args = Array.prototype.slice.call(arguments, 1);
 		return this.each(function(){
 			var $this = $(this),
@@ -705,42 +710,29 @@ var timePicker = {};
 			}
 		});
 	};
+
+	timePicker.init = init;
 })();
 
 
 
 
 
+marsTimePickerMudle
+.controller('timePickerController', ['$scope', '$timeout', function ($scope, $timeout) {
 
-
-marsTimePicker.directive('marsTimePicker', ['$rootScope', function ($rootScope) {
+}])
+.directive('marsTimePicker', ['$rootScope', function ($rootScope) {
 	return {
 		restrict: 'E',
 		scope: {
 			time: "="
 		},
-		controller: '',
+		controller: 'timePickerController',
 		link: function (scope, elm, attrs, controller) {
-
+			timePicker.init(elm);
 		},
 		template:   
-					'<div class="popover clockpicker-popover">' +
-						'<div class="arrow"></div>' +
-						'<div class="popover-title">' +
-							'<span class="clockpicker-span-hours text-primary"></span>' +
-							' : ' +
-							'<span class="clockpicker-span-minutes"></span>' +
-							'<span class="clockpicker-span-am-pm"></span>' +
-						'</div>' +
-						'<div class="popover-content">' +
-							'<div class="clockpicker-plate">' +
-								'<div class="clockpicker-canvas"></div>' +
-								'<div class="clockpicker-dial clockpicker-hours"></div>' +
-								'<div class="clockpicker-dial clockpicker-minutes clockpicker-dial-out"></div>' +
-							'</div>' +
-							'<span class="clockpicker-am-pm-block">'+
-							'</span>'+
-						'</div>'+
-					'</div>'
+				'<input type="text" class="clockpicker" ng-model="time" value="{{time}}">'
 	};
 }]);
