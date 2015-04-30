@@ -23,8 +23,6 @@ var uiControl = {};
 	}
 	function setHandlers () {
 		$scope.dayClick = dayClick;
-		$scope.clockClick = clockClick;
-		$scope.allDayToggleChange = allDayToggleChange;
 	}
 	function setConfigs () {
 		$scope.datePickerOptions = {
@@ -52,17 +50,9 @@ var uiControl = {};
         
         $('#newEvent').append($('.clockpicker-popover'));
 	}
-	function allDayToggleChange () {
-	} 
-	function clockClick () {
-		// $('.clockpicker').clockpicker({
-  //           autoclose: true
-  //       });
-  		//$timeout(function () {$('#newEvent').append($('.clockpicker-popover'));}, 500);
-        //$('#newEvent').append($('.clockpicker-popover'));
-	}
  	function dayClick (date, jsEvent, view) {
 		$scope.newEvent = {};
+		$scope.newEvent.allDay = { text: 'All Day', checked: true};
 		$scope.newEvent.startDate = date.format();
 		$scope.newEvent.startTime = '00:00';
 		$scope.newEvent.endDate = date.format();
