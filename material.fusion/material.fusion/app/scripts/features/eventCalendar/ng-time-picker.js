@@ -729,13 +729,14 @@ marsTimePickerMudle
 	return {
 		restrict: 'E',
 		scope: {
-			time: "="
+			time: "=",
+			cssClass: "@cssClass"
 		},
 		controller: 'timePickerController',
 		link: function (scope, elm, attrs, controller) {
 			timePicker.init(scope, elm);
 		},
 		template:   
-				'<input type="text" class="clockpicker" value="{{time}}">'
+				'<input type="text" class="clockpicker {{cssClass}}" value="{{time}}">'
 	};
 }]);
