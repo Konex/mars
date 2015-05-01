@@ -14,3 +14,12 @@
 
 @import "utils/mixins";
 @import "utils/variables";
+
+.animate-hide {
+ 	@include transition(all 2.0s ease-in-out);
+}
+
+.animate-hide.ng-hide {
+	opacity:0;
+	height:0;
+}

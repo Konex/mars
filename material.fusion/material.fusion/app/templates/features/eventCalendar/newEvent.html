@@ -13,20 +13,22 @@
     </label>
     
     <!-- Have to wrap the date picker inside a ion-list to disable the 300ms tab feature -->
-    <div class="row" ng-show="!newEvent.allDay.checked">
-        <ion-list class="no-border col col-33" data-tap-disabled="true">    
-            <input type="text" pick-a-date="date" ng-model="newEvent.startDate" placeholder="{{newEvent.startDate}}"/>
-        </ion-list>
+    <div class="animate-hide" ng-show="!newEvent.allDay.checked">
+        <div class="row">
+            <ion-list class="no-border col col-33" data-tap-disabled="true">    
+                <input type="text" pick-a-date="date" ng-model="newEvent.startDate" placeholder="{{newEvent.startDate}}"/>
+            </ion-list>
 
-        <mars-time-picker css-class="col col-33 col-offset-67" id="startTimePicker" time="newEvent.startTime"></mars-time-picker>
-    </div>
+            <mars-time-picker css-class="col col-33 col-offset-67" id="startTimePicker" time="newEvent.startTime"></mars-time-picker>
+        </div>
 
-    <div class="row" ng-show="!newEvent.allDay.checked">
-        <ion-list class="no-border col col-33" data-tap-disabled="true">
-            <input type="text" pick-a-date="date" ng-model="newEvent.endDate" placeholder="{{newEvent.endDate}}"/>
-        </ion-list>
+        <div class="row">
+            <ion-list class="no-border col col-33" data-tap-disabled="true">
+                <input type="text" pick-a-date="date" ng-model="newEvent.endDate" placeholder="{{newEvent.endDate}}"/>
+            </ion-list>
 
-        <mars-time-picker css-class="col col-33 col-offset-67" id="startTimePicker" time="newEvent.startTime"></mars-time-picker>
+            <mars-time-picker css-class="col col-33 col-offset-67" id="endTimePicker" time="newEvent.endTime"></mars-time-picker>
+        </div>
     </div>
 
     <label class="item item-icon-left no-border">
