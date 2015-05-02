@@ -22,7 +22,6 @@ var uiControl = {};
 	}
 	function setConfigs () {
 		$scope.clockPickerOptions = {
-			twelvehour: true,
 			autoclose: true
 			//TODO: this might be needed for moment date formating
 			//format: 'ddd, dd-mm-yyyy'
@@ -86,7 +85,7 @@ var uiControl = {};
 	function getNewEvent (date) {
 		var newEvent = {};
 		newEvent.title = "";
-		newEvent.allDay = { text: 'All Day', checked: true};
+		newEvent.allDay = { text: 'All Day', checked: false};
 		newEvent.startDate = date.format();
 		newEvent.startTime = '00:00';
 		newEvent.endDate = date.format();
