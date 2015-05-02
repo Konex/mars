@@ -13,20 +13,19 @@ var uiControl = {};
 		$ionicPopup = _ionicPopup;
 		eventCalendarService = _EventCalendarService;
 
-		setDefaults();
 		setHandlers();
 		setConfigs();
 	}
 
-	function setDefaults () {
-		$scope.currentDate = new Date();
-	}
 	function setHandlers () {
 		$scope.dayClick = dayClick;
 	}
 	function setConfigs () {
-		$scope.datePickerOptions = {
-			format: 'ddd, dd-mm-yyyy'
+		$scope.clockPickerOptions = {
+			twelvehour: true,
+			autoclose: true
+			//TODO: this might be needed for moment date formating
+			//format: 'ddd, dd-mm-yyyy'
 		};
 
 		$scope.uiConfig = {
@@ -43,20 +42,8 @@ var uiControl = {};
 	      	}
 		};
 	}
-	function setTimePicker () {
-		$('.clockpicker').clockpicker({
-            autoclose: true
-        });
-        
-        $('#newEvent').append($('.clockpicker-popover'));
-	}
  	function dayClick (date, jsEvent, view) {
-		$scope.newEvent = {};
-		$scope.newEvent.allDay = { text: 'All Day', checked: true};
-		$scope.newEvent.startDate = date.format();
-		$scope.newEvent.startTime = '00:00';
-		$scope.newEvent.endDate = date.format();
-		$scope.newEvent.endTime = '01:00';
+		$scope.newEvent = getNewEvent(date);
  
 		var myPopup = $ionicPopup.show({
 		    templateUrl: '/templates/features/eventCalendar/newEvent.html',
@@ -81,7 +68,7 @@ var uiControl = {};
 	    var eventKey = $scope.events ? $scope.events.length + 1 : 1;
 	    var calendarEvent = {
 			id: eventID,
-	        title: 'Yini Test',
+	        title: $scope.newEvent.title,
 	        start: date,
 	        end: date,
 	        className: ['openSesame'],
@@ -96,24 +83,20 @@ var uiControl = {};
         eventCalendarService.set(eventKey, calendarEvent);
 	}
 
+	function getNewEvent (date) {
+		var newEvent = {};
+		newEvent.title = "";
+		newEvent.allDay = { text: 'All Day', checked: true};
+		newEvent.startDate = date.format();
+		newEvent.startTime = '00:00';
+		newEvent.endDate = date.format();
+		newEvent.endTime = '01:00';
+		return newEvent; 
+	}
+
 	uiControl.init = init;
 })();
 
-
-var eventHelper = {};
-(function () {
-
-	function getEventID () {
-
-	}
-
-	function getEventKey (maxNum) {
-
-	}
-
-	eventHelper.getEventID = getEventID;
-	eventHelper.getEventKey = getEventKey;
-})();
 
 
 var pageLoad = {};

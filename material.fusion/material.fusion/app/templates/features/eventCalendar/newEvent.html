@@ -1,5 +1,5 @@
 
-<input class="item" type="text" placeholder="Enter titles, people and places" ng-model="event.title">
+<input class="item" type="text" placeholder="Enter titles, people and places" ng-model="newEvent.title">
 
 <div id="newEvent" class="list">
     <label class="item item-icon-left no-border">
@@ -19,7 +19,7 @@
                 <input type="text" pick-a-date="date" ng-model="newEvent.startDate" placeholder="{{newEvent.startDate}}"/>
             </ion-list>
 
-            <mars-time-picker css-class="col col-33 col-offset-67" id="startTimePicker" time="newEvent.startTime"></mars-time-picker>
+            <mars-time-picker id="startTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="newEvent.startTime"></mars-time-picker>
         </div>
 
         <div class="row">
@@ -27,7 +27,7 @@
                 <input type="text" pick-a-date="date" ng-model="newEvent.endDate" placeholder="{{newEvent.endDate}}"/>
             </ion-list>
 
-            <mars-time-picker css-class="col col-33 col-offset-67" id="endTimePicker" time="newEvent.endTime"></mars-time-picker>
+            <mars-time-picker id="endTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="newEvent.endTime"></mars-time-picker>
         </div>
     </div>
 

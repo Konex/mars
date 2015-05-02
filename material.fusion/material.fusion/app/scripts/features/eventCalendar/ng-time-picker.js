@@ -9,9 +9,7 @@ var timePicker = {};
 	function init (_scope, _elm) {
 		scope = _scope;
 		elm = _elm;
-		$('.clockpicker').clockpicker({
-            autoclose: true
-        });
+		$('.clockpicker').clockpicker(scope.options);
 	}
 
 	var $ = window.jQuery,
@@ -730,7 +728,8 @@ marsTimePickerMudle
 		restrict: 'E',
 		scope: {
 			time: "=",
-			cssClass: "@cssClass"
+			cssClass: "@cssClass",
+			options: "="
 		},
 		controller: 'timePickerController',
 		link: function (scope, elm, attrs, controller) {
