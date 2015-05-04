@@ -62,16 +62,18 @@ var uiControl = {};
 		    ]
 	  	});
 	}
-	function getEvent (eventDate) {
+	function getEvent (event) {
 		var editEvent = {
-			id: eventDate.id,
-			title: eventDate.title,
-			startDate: eventDate.start.format('LL'),
-			startTime: eventDate.start.format('HH:mm'),
-			endDate: eventDate.end.format('LL'),
-			endTime: eventDate.end.format('HH:mm'),
-			allDay: { text: 'All Day', checked: eventDate.allDay},
-			eventKey: eventDate.eventKey
+			id: event.id,
+			title: event.title,
+			startDate: event.start.format('LL'),
+			startTime: event.start.format('HH:mm'),
+			endDate: event.end.format('LL'),
+			endTime: event.end.format('HH:mm'),
+			allDay: { text: 'All Day', checked: event.allDay},
+			location: event.location,
+			note: event.note,
+			eventKey: event.eventKey
 		};
 		return editEvent; 
 	}
@@ -108,7 +110,9 @@ var uiControl = {};
 	        start: formatDateTime($scope.newEvent.startDate, $scope.newEvent.startTime),
 	        end: formatDateTime($scope.newEvent.endDate, $scope.newEvent.endTime),
 	        allDay: $scope.newEvent.allDay.checked,
-	        eventKey: eventKey
+	        eventKey: eventKey,
+	        location: $scope.newEvent.location,
+	        note: $scope.newEvent.note
       	};  
 
 		$scope.events.push(calendarEvent);
@@ -133,6 +137,8 @@ var uiControl = {};
 		newEvent.startTime = '00:00';
 		newEvent.endDate = date.format();
 		newEvent.endTime = '01:00';
+		newEvent.location = 'Devonport Primary School',
+		newEvent.note = ''
 		return newEvent; 
 	}
 
