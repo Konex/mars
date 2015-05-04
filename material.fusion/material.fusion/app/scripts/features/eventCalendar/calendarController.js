@@ -42,6 +42,40 @@ var uiControl = {};
 		};
 	}
 	function eventClick (date, jsEvent, view) {
+		$scope.editEvent = getEvent(date);
+		
+		var myPopup = $ionicPopup.show({
+		    templateUrl: '/templates/features/eventCalendar/editEvent.html',
+		    title: date.title,
+		    subTitle: 'Please use normal things',
+		    scope: $scope,
+		    buttons: [
+		      	{ text: 'Cancel' },
+		      	{
+		        	text: '<b>Save</b>',
+		        	type: 'button-positive',
+		        	onTap: function(e) {
+			          	saveEvent(date, jsEvent, view);
+			          	return;
+		        	}
+		      	}
+		    ]
+	  	});
+	}
+	function getEvent (eventDate) {
+		var editEvent = {
+			id: eventDate.id,
+			title: eventDate.title,
+			startDate: eventDate.start.format('LL'),
+			startTime: eventDate.start.format('HH:mm'),
+			endDate: eventDate.end.format('LL'),
+			endTime: eventDate.end.format('HH:mm'),
+			allDay: { text: 'All Day', checked: eventDate.allDay},
+			eventKey: eventDate.eventKey
+		};
+		return editEvent; 
+	}
+	function saveEvent (date, jsEvent, view) {
 
 	}
  	function dayClick (date, jsEvent, view) {

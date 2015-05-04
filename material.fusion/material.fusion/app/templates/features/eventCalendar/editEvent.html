@@ -1,0 +1,60 @@
+<div id="editEvent" class="list">
+    <label class="item item-icon-left no-border">
+        <i class="icon ion-ios-calendar-outline"></i>
+        <input type="text" ng-model="editEvent.title" placeholder="title">
+    </label>
+    
+    <label id="allDay" class="item item-icon-left no-border">
+        <i class="icon ion-ios-clock-outline"></i>
+        <ion-toggle id="allDayToggle" ng-model="editEvent.allDay.checked" toggle-class="toggle-calm">All day</ion-toggle>
+    </label>
+    
+    <!-- Have to wrap the date picker inside a ion-list to disable the 300ms tab feature -->
+    <div class="animate-hide" ng-show="!editEvent.allDay.checked">
+        <div class="row">
+            <ion-list class="no-border col col-33" data-tap-disabled="true">    
+                <input type="text" pick-a-date="date" ng-model="editEvent.startDate" placeholder="{{editEvent.startDate}}"/>
+            </ion-list>
+
+            <mars-time-picker id="startTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="editEvent.startTime"></mars-time-picker>
+        </div>
+
+        <div class="row">
+            <ion-list class="no-border col col-33" data-tap-disabled="true">
+                <input type="text" pick-a-date="date" ng-model="editEvent.endDate" placeholder="{{editEvent.endDate}}"/>
+            </ion-list>
+
+            <mars-time-picker id="endTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="editEvent.endTime"></mars-time-picker>
+        </div>
+    </div>
+
+    <label class="item item-icon-left no-border">
+    	<i class="icon ion-ios-location"></i>
+    	<input type="text" placeholder="Add location">
+    </label>
+
+    <label class="item item-icon-left no-border">
+        <i class="icon ion-ios-bell"></i>
+        <input type="text" placeholder="Notification">
+    </label>
+
+    <label class="item item-icon-left no-border">
+    	<i class="icon ion-person-stalker"></i>
+    	<input type="text" placeholder="Invite people">
+    </label>
+
+      <label class="item item-icon-left no-border">
+        	<i class="icon ion-paintbrush"></i>
+        	<input type="text" placeholder="Choose colour">
+      </label>
+
+      <label class="item item-icon-left no-border">
+        	<i class="icon ion-document"></i>
+        	<input type="text" placeholder="Add note">
+      </label>
+
+      <label class="item item-icon-left no-border">
+        	<i class="icon ion-paperclip"></i>
+        	<input type="text" placeholder="Add attachment">
+      </label>
+</div>
