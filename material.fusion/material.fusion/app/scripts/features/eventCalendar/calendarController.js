@@ -19,12 +19,11 @@ var uiControl = {};
 
 	function setHandlers () {
 		$scope.dayClick = dayClick;
+		$scope.eventClick = eventClick;
 	}
 	function setConfigs () {
 		$scope.clockPickerOptions = {
 			autoclose: true
-			//TODO: this might be needed for moment date formating
-			//format: 'ddd, dd-mm-yyyy'
 		};
 
 		$scope.uiConfig = {
@@ -36,10 +35,14 @@ var uiControl = {};
 		          	right: 'today prev,next'
 		        },
 		        dayClick: $scope.dayClick,
+		        eventClick: $scope.eventClick,
 		        eventDrop: $scope.alertOnDrop,
 		        eventResize: $scope.alertOnResize
 	      	}
 		};
+	}
+	function eventClick (date, jsEvent, view) {
+
 	}
  	function dayClick (date, jsEvent, view) {
 		$scope.newEvent = getNewEvent(date);
@@ -63,14 +66,14 @@ var uiControl = {};
 	  	});
 	}
 	function addEvent(date, jsEvent, view) {
-	    var eventID = $scope.events ? $scope.events.length + 1 : 1;
 	    var eventKey = $scope.events ? $scope.events.length + 1 : 1;
+	    
 	    var calendarEvent = {
-			id: eventID,
+			id: eventKey,
 	        title: $scope.newEvent.title,
-	        start: date,
-	        end: date,
-	        className: ['openSesame'],
+	        start: formatDateTime($scope.newEvent.startDate, $scope.newEvent.startTime),
+	        end: formatDateTime($scope.newEvent.endDate, $scope.newEvent.endTime),
+	        allDay: $scope.newEvent.allDay.checked,
 	        eventKey: eventKey
       	};  
 
@@ -80,6 +83,12 @@ var uiControl = {};
 			$scope.eventSources.push($scope.events);
 
         eventCalendarService.set(eventKey, calendarEvent);
+	}
+
+	function formatDateTime (date, time) {
+		var timeDelimited = time.split(':');
+		var dateDelimited = date.split('-');
+		return new Date(dateDelimited[0], dateDelimited[1]-1, dateDelimited[2], timeDelimited[0], timeDelimited[1]);
 	}
 
 	function getNewEvent (date) {
