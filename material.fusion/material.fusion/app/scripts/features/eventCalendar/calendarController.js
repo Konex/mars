@@ -77,9 +77,6 @@ var uiControl = {};
 		};
 		return editEvent; 
 	}
-	function saveEvent (date, jsEvent, view) {
-
-	}
  	function dayClick (date, jsEvent, view) {
 		$scope.newEvent = getNewEvent(date);
  
@@ -106,36 +103,59 @@ var uiControl = {};
 	    
 	    var calendarEvent = {
 			id: eventKey,
+	        eventKey: eventKey,
 	        title: $scope.newEvent.title,
 	        start: formatDateTime($scope.newEvent.startDate, $scope.newEvent.startTime),
 	        end: formatDateTime($scope.newEvent.endDate, $scope.newEvent.endTime),
 	        allDay: $scope.newEvent.allDay.checked,
-	        eventKey: eventKey,
 	        location: $scope.newEvent.location,
 	        note: $scope.newEvent.note
-      	};  
+      	};
 
 		$scope.events.push(calendarEvent);
 		
-		if ($scope.eventSources.length == 0)
-			$scope.eventSources.push($scope.events);
+		// Can't push an empty events array into eventSources in pageLoad,
+		// as it will always reference the empty event array!  
+		if (_.isEmpty($scope.eventSources)) $scope.eventSources.push($scope.events);
 
         eventCalendarService.set(eventKey, calendarEvent);
+
+        delete $scope.newEvent;
+	}
+	function saveEvent (date, jsEvent, view) {
+		var calendarEvent = {
+			id: $scope.editEvent.id,
+	        eventKey: $scope.editEvent.eventKey,
+	        title: $scope.editEvent.title,
+	        start: formatDateTime($scope.editEvent.startDate, $scope.editEvent.startTime),
+	        end: formatDateTime($scope.editEvent.endDate, $scope.editEvent.endTime),
+	        allDay: $scope.editEvent.allDay.checked,
+	        location: $scope.editEvent.location,
+	        note: $scope.editEvent.note
+      	};
+
+      	updateEvent(calendarEvent);
+      	  
+		eventCalendarService.set(calendarEvent.id, calendarEvent);
+
+		delete $scope.editEvent;
+	}
+	function updateEvent (event) {
+		var index = _.indexOf($scope.events, _.find($scope.events, 'id', event.id));
+		$scope.events.splice(index, 1, event);
 	}
 
 	function formatDateTime (date, time) {
-		var timeDelimited = time.split(':');
-		var dateDelimited = date.split('-');
-		return new Date(dateDelimited[0], dateDelimited[1]-1, dateDelimited[2], timeDelimited[0], timeDelimited[1]);
+		return new Date(date + ' ' + time);
 	}
 
 	function getNewEvent (date) {
 		var newEvent = {};
 		newEvent.title = "";
 		newEvent.allDay = { text: 'All Day', checked: false};
-		newEvent.startDate = date.format();
+		newEvent.startDate = date.format('LL');
 		newEvent.startTime = '00:00';
-		newEvent.endDate = date.format();
+		newEvent.endDate = date.format('LL');
 		newEvent.endTime = '01:00';
 		newEvent.location = 'Devonport Primary School',
 		newEvent.note = ''
@@ -156,15 +176,17 @@ var pageLoad = {};
 		$q = _q;
 		eventCalendarService = _eventCalendarService;
 		$scope.eventSources = [];
-		
+		$scope.events = [];
 		loadData();
 	}
 
 	function loadData () {
 		var promise = eventCalendarService.getAll();
 		promise.then(function(data) {
-			$scope.events = data;
-			$scope.eventSources.push(data);
+			if (!_.isEmpty(data)) {
+				$scope.events = data;
+				$scope.eventSources.push($scope.events);	
+			}
 		});
 	}
 
