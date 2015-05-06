@@ -42,7 +42,7 @@ var uiControl = {};
 		};
 	}
 	function eventClick (date, jsEvent, view) {
-		$scope.editEvent = getEvent(date);
+		$scope.editEvent = _.find($scope.events, 'id', date.id);
 		
 		var myPopup = $ionicPopup.show({
 		    templateUrl: '/templates/features/eventCalendar/editEvent.html',
@@ -61,21 +61,6 @@ var uiControl = {};
 		      	}
 		    ]
 	  	});
-	}
-	function getEvent (event) {
-		var editEvent = {
-			id: event.id,
-			title: event.title,
-			startDate: event.start.format('LL'),
-			startTime: event.start.format('HH:mm'),
-			endDate: event.end.format('LL'),
-			endTime: event.end.format('HH:mm'),
-			allDay: { text: 'All Day', checked: event.allDay},
-			location: event.location,
-			note: event.note,
-			eventKey: event.eventKey
-		};
-		return editEvent; 
 	}
  	function dayClick (date, jsEvent, view) {
 		$scope.newEvent = getNewEvent(date);
@@ -105,9 +90,13 @@ var uiControl = {};
 			id: eventKey,
 	        eventKey: eventKey,
 	        title: $scope.newEvent.title,
+	        startDate: $scope.newEvent.startDate,
+	        startTime: $scope.newEvent.startTime,
+	        endDate: $scope.newEvent.endDate,
+	        endTime: $scope.newEvent.endTime,
 	        start: formatDateTime($scope.newEvent.startDate, $scope.newEvent.startTime),
 	        end: formatDateTime($scope.newEvent.endDate, $scope.newEvent.endTime),
-	        allDay: $scope.newEvent.allDay.checked,
+	        allDay: $scope.newEvent.allDay,
 	        location: $scope.newEvent.location,
 	        note: $scope.newEvent.note
       	};
@@ -122,37 +111,17 @@ var uiControl = {};
 
         delete $scope.newEvent;
 	}
-	function saveEvent (date, jsEvent, view) {
-		var calendarEvent = {
-			id: $scope.editEvent.id,
-	        eventKey: $scope.editEvent.eventKey,
-	        title: $scope.editEvent.title,
-	        start: formatDateTime($scope.editEvent.startDate, $scope.editEvent.startTime),
-	        end: formatDateTime($scope.editEvent.endDate, $scope.editEvent.endTime),
-	        allDay: $scope.editEvent.allDay.checked,
-	        location: $scope.editEvent.location,
-	        note: $scope.editEvent.note
-      	};
-
-      	updateEvent(calendarEvent);
-      	  
-		eventCalendarService.set(calendarEvent.id, calendarEvent);
-
-		delete $scope.editEvent;
+	function saveEvent (date, jsEvent, view) {  
+		
+		eventCalendarService.set($scope.editEvent.id, $scope.editEvent);
 	}
-	function updateEvent (event) {
-		var index = _.indexOf($scope.events, _.find($scope.events, 'id', event.id));
-		$scope.events.splice(index, 1, event);
-	}
-
 	function formatDateTime (date, time) {
 		return new Date(date + ' ' + time);
 	}
-
 	function getNewEvent (date) {
 		var newEvent = {};
 		newEvent.title = "";
-		newEvent.allDay = { text: 'All Day', checked: false};
+		newEvent.allDay = false;
 		newEvent.startDate = date.format('LL');
 		newEvent.startTime = '00:00';
 		newEvent.endDate = date.format('LL');

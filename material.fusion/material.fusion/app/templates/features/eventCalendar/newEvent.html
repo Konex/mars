@@ -6,11 +6,11 @@
     
     <label id="allDay" class="item item-icon-left no-border">
         <i class="icon ion-ios-clock-outline"></i>
-        <ion-toggle id="allDayToggle" ng-model="newEvent.allDay.checked" toggle-class="toggle-calm">All day</ion-toggle>
+        <ion-toggle id="allDayToggle" ng-model="newEvent.allDay" toggle-class="toggle-calm">All day</ion-toggle>
     </label>
     
     <!-- Have to wrap the date picker inside a ion-list to disable the 300ms tab feature -->
-    <div class="animate-hide" ng-show="!newEvent.allDay.checked">
+    <div class="animate-hide" ng-show="!newEvent.allDay">
         <div class="row">
             <ion-list class="no-border col col-33" data-tap-disabled="true">    
                 <input type="text" pick-a-date="date" ng-model="newEvent.startDate" placeholder="{{newEvent.startDate}}"/>
