@@ -4,13 +4,14 @@ var calendarController = angular.module('features.calendarController', []);
 
 var uiControl = {};
 (function() {
-	var $scope, $timeout, $ionicModal, $ionicPopup, eventCalendarService;
+	var $scope, $timeout, $ionicModal, $ionicPopup, uiCalendarConfig, eventCalendarService;
 
-	function init(_scope, _timeout, _ionicModal, _ionicPopup, _EventCalendarService) {
+	function init(_scope, _timeout, _ionicModal, _ionicPopup, _uiCalendarConfig, _EventCalendarService) {
 		$scope = _scope;
 		$timeout = _timeout;
 		$ionicModal = _ionicModal;
 		$ionicPopup = _ionicPopup;
+		uiCalendarConfig = _uiCalendarConfig;
 		eventCalendarService = _EventCalendarService;
 
 		setHandlers();
@@ -36,14 +37,16 @@ var uiControl = {};
 		        },
 		        dayClick: $scope.dayClick,
 		        eventClick: $scope.eventClick,
-		        eventDrop: $scope.alertOnDrop,
-		        eventResize: $scope.alertOnResize
+		        eventDrop: $scope.eventDrop,
+		        eventResize: $scope.eventResize
 	      	}
 		};
 	}
 	function eventClick (date, jsEvent, view) {
-		$scope.editEvent = _.find($scope.events, 'id', date.id);
-		
+		//$scope.editEventIndex = _.indexOf($scope.events, _.find($scope.events, 'id', date.id));
+		var editEvent = _.find($scope.events, 'id', date.id)
+		$scope.editEvent = angular.copy(editEvent);
+
 		var myPopup = $ionicPopup.show({
 		    templateUrl: '/templates/features/eventCalendar/editEvent.html',
 		    title: date.title,
@@ -55,7 +58,7 @@ var uiControl = {};
 		        	text: '<b>Save</b>',
 		        	type: 'button-positive',
 		        	onTap: function(e) {
-			          	saveEvent(date, jsEvent, view);
+			          	saveEvent(date, jsEvent, view, $scope.editEvent);
 			          	return;
 		        	}
 		      	}
@@ -111,9 +114,12 @@ var uiControl = {};
 
         delete $scope.newEvent;
 	}
-	function saveEvent (date, jsEvent, view) {  
-		
-		eventCalendarService.set($scope.editEvent.id, $scope.editEvent);
+	function saveEvent (date, jsEvent, view, editEvent) {
+	    var index = _.indexOf($scope.events, _.find($scope.events, 'id', editEvent.id));
+	    
+	    $scope.events[index] = editEvent;
+
+		eventCalendarService.set(editEvent.id, editEvent);
 	}
 	function formatDateTime (date, time) {
 		return new Date(date + ' ' + time);
@@ -167,6 +173,6 @@ calendarController.controller('CalendarCtrl', [
 	
 	function($scope, $q, $timeout, uiCalendarConfig, $ionicModal, $ionicPopup, EventCalendarService) {
 		pageLoad.init($scope, $q, EventCalendarService);
-		uiControl.init($scope, $timeout, $ionicModal, $ionicPopup, EventCalendarService);
+		uiControl.init($scope, $timeout, $ionicModal, $ionicPopup, uiCalendarConfig, EventCalendarService);
 	}
 ]);
