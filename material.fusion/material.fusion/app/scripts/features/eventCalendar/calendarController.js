@@ -116,9 +116,9 @@ var uiControl = {};
 	}
 	function saveEvent (date, jsEvent, view, editEvent) {
 	    var index = _.indexOf($scope.events, _.find($scope.events, 'id', editEvent.id));
-	    
+	    editEvent.start = formatDateTime(editEvent.startDate, editEvent.startTime);
+	    editEvent.end = formatDateTime(editEvent.endDate, editEvent.endTime);
 	    $scope.events[index] = editEvent;
-
 		eventCalendarService.set(editEvent.id, editEvent);
 	}
 	function formatDateTime (date, time) {
