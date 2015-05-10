@@ -43,7 +43,6 @@ var uiControl = {};
 		};
 	}
 	function eventClick (date, jsEvent, view) {
-		//$scope.editEventIndex = _.indexOf($scope.events, _.find($scope.events, 'id', date.id));
 		var editEvent = _.find($scope.events, 'id', date.id)
 		$scope.editEvent = angular.copy(editEvent);
 
@@ -120,6 +119,7 @@ var uiControl = {};
 	    editEvent.end = formatDateTime(editEvent.endDate, editEvent.endTime);
 	    $scope.events[index] = editEvent;
 		eventCalendarService.set(editEvent.id, editEvent);
+		delete $scope.editEvent;
 	}
 	function formatDateTime (date, time) {
 		return new Date(date + ' ' + time);
