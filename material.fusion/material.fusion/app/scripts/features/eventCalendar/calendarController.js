@@ -23,6 +23,8 @@ var uiControl = {};
 		$scope.eventClick = eventClick;
 	}
 	function setConfigs () {
+		$scope.datePickerOptions = getDatePickerOptions();
+
 		$scope.clockPickerOptions = {
 			autoclose: true
 		};
@@ -42,6 +44,17 @@ var uiControl = {};
 	      	}
 		};
 	}
+
+	function getDatePickerOptions () {
+		var options = {
+			closeOnSelect: false,
+			today: 'Today',
+			clear: 'Clear',
+			close: 'Close'
+		};
+		return options;
+	}
+
 	function eventClick (date, jsEvent, view) {
 		var editEvent = _.find($scope.events, 'id', date.id)
 		$scope.editEvent = angular.copy(editEvent);

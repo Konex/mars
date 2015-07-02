@@ -2,26 +2,6 @@
 
 var auth = angular.module('common.security.auth', []);
 
-
-auth.service('Session',
-
-    function () {
-    this.create = function (sessionId, userId, userRoles) {
-        this.id = sessionId;
-        this.userId = userId;
-        this.userRoles = userRoles;
-    };
-    
-    this.destroy = function () {
-        this.id = null;
-        this.userId = null;
-        this.userRoles = null;
-    };
-    return this;
-});
-
-
-
 auth.config([
     '$httpProvider',
 
@@ -33,29 +13,6 @@ auth.config([
         }
     ]);
 }]);
-
-
-
-auth.factory('AuthInterceptor', [
-    '$rootScope',
-    '$q',
-    'AUTH_EVENTS',
-
-    function ($rootScope, $q, AUTH_EVENTS) {
-    return {
-        responseError: function (response) {
-            $rootScope.$broadcast({
-                401: AUTH_EVENTS.notAuthenticated,
-                403: AUTH_EVENTS.notAuthorized,
-                419: AUTH_EVENTS.sessionTimeout,
-                440: AUTH_EVENTS.sessionTimeout
-            } [response.status], response);
-                
-            return $q.reject(response);
-        }
-    };
-}]);
-
 
 auth.factory('AuthService', [
     '$http',
@@ -89,7 +46,6 @@ auth.factory('AuthService', [
 
         return (authService.isAuthenticated() && accessMaskSum > 0); 
     };
-
 
     return authService;
 }]);

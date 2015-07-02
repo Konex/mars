@@ -13,7 +13,7 @@
     <div class="animate-hide" ng-show="!editEvent.allDay">
         <div class="row">
             <ion-list class="no-border col col-33" data-tap-disabled="true">    
-                <input type="text" pick-a-date="date" ng-model="editEvent.startDate" placeholder="{{editEvent.startDate}}"/>
+                <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" ng-model="editEvent.startDate" placeholder="{{editEvent.startDate}}"/>
             </ion-list>
 
             <mars-time-picker id="startTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="editEvent.startTime"></mars-time-picker>
@@ -21,7 +21,7 @@
 
         <div class="row">
             <ion-list class="no-border col col-33" data-tap-disabled="true">
-                <input type="text" pick-a-date="date" ng-model="editEvent.endDate" placeholder="{{editEvent.endDate}}"/>
+                <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" ng-model="editEvent.endDate" placeholder="{{editEvent.endDate}}"/>
             </ion-list>
 
             <mars-time-picker id="endTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="editEvent.endTime"></mars-time-picker>

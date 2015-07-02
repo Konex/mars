@@ -13,7 +13,7 @@
     <div class="animate-hide" ng-show="!newEvent.allDay">
         <div class="row">
             <ion-list class="no-border col col-33" data-tap-disabled="true">    
-                <input type="text" pick-a-date="date" ng-model="newEvent.startDate" placeholder="{{newEvent.startDate}}"/>
+                <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" data-value="{{newEvent.startDate}}" ng-model="newEvent.startDate" placeholder="{{newEvent.startDate}}"/>
             </ion-list>
 
             <mars-time-picker id="startTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="newEvent.startTime"></mars-time-picker>
@@ -21,7 +21,7 @@
 
         <div class="row">
             <ion-list class="no-border col col-33" data-tap-disabled="true">
-                <input type="text" pick-a-date="date" ng-model="newEvent.endDate" placeholder="{{newEvent.endDate}}"/>
+                <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" ng-model="newEvent.endDate" placeholder="{{newEvent.endDate}}"/>
             </ion-list>
 
             <mars-time-picker id="endTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="newEvent.endTime"></mars-time-picker>
