@@ -1,6 +1,6 @@
 'use strict';
 
-var securityConstants = angular.module('common.security.constants', [])
+var securityConstants = angular.module('common.services.auth.constants', [])
 
 securityConstants.constant('AUTH_EVENTS', {
     signinSuccess: 'auth-login-success',

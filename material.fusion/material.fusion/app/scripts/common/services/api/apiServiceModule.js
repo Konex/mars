@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('common.service.api', [
-	'common.service.api.endpoint',
-	'common.service.api.apiService'
+angular.module('common.services.api', [
+	'common.services.api.endpoint',
+	'common.services.api.apiService'
 	]);

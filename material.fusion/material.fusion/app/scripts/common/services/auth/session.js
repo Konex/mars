@@ -12,7 +12,12 @@ function session () {
         this.userId = null;
         this.userRoles = null;
     };
+
+    this.user = function (user) {
+        this.user = user
+    };
+    
     return this;
 }
 
-angular.module('common.security.session', []).service('Session', session);
+angular.module('common.services.auth.session', []).service('Session', session);

@@ -14,4 +14,4 @@ function authInterceptor ($rootScope, $q, AUTH_EVENTS) {
         }
     };
 }
-angular.module('common.security.authInterceptor', []).factory('AuthInterceptor', authInterceptor);
+angular.module('common.services.auth.authInterceptor', []).factory('AuthInterceptor', authInterceptor);

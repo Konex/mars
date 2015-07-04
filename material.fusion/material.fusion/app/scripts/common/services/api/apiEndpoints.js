@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('common.service.api.endpoint', [])
+angular.module('common.services.api.endpoint', [])
 		.constant('API_ENV_BASE_URI', {
 			stub: 'scripts/common/stubs/me/signin/data.json',
 			dev: 'http://localhost:3000',

@@ -4,30 +4,27 @@ function authService ($http, ApiService, API_NAME, Session, ACCESS_LEVEL, _) {
     var authService = {};
 
     authService.signin = function (credentials) {
-        return $http
-        .get('scripts/common/stubs/me/signin/data.json', credentials)
-        .then(function (res) {
-            Session.create(res.data.value[0].sessionId, res.data.value[0].id, res.data.value[0].roles);
-            return res.data;
-        });
+        var uri = ApiService.getApiUri(API_NAME.signin);
+
+        $http.post(uri, credentials).success(function(response) {            
+            Session.user(response);
+        }).error(function(response) {
+            response.message;
+        });    
     };
 
     authService.signup = function (credentials) {
         var uri = ApiService.getApiUri(API_NAME.signup);
-
+        
         $http.post(uri, credentials).success(function(response) {
-                // If successful we assign the response to the global user model
-                //$scope.authentication.user = response;
-
-                // And redirect to the index page
-                //$location.path('/');
+                Session.user(response);
             }).error(function(response) {
-                //$scope.error = response.message;
+                response.message;
             });
     }
 
     authService.isAuthenticated = function () {
-        return !!Session.userId;
+        return !!Session.userId || Session.user;
     };
 
     authService.isAuthorized = function (accessLevel) {
@@ -44,7 +41,7 @@ function authService ($http, ApiService, API_NAME, Session, ACCESS_LEVEL, _) {
     return authService;
 }
 
-angular.module('common.security.auth', []).config(['$httpProvider',
+angular.module('common.services.auth.authService', []).config(['$httpProvider',
     function ($httpProvider) {
         $httpProvider.interceptors.push([
             '$injector',
