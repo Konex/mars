@@ -2,7 +2,6 @@
 
 var signinController = angular.module('features.signinController', []);
 
-
 signinController.controller('SignInCtrl', [
   '$scope', 
   '$rootScope',
@@ -12,24 +11,17 @@ signinController.controller('SignInCtrl', [
   
   function($scope, $rootScope, $state, AUTH_EVENTS, AuthService) {
 
-    $scope.credentials = {
-      username: '',
-      password: ''
-    };
+    $scope.credentials = {username: '', password: ''};
 
      $scope.signin = function () {
         $scope.signInForm.submitted = false;
         if($scope.signInForm.$valid) {
-            AuthService.signin($scope.credentials).then(
-                function(user) {
-                  $rootScope.$broadcast(AUTH_EVENTS.signinSuccess);
-                  $scope.setCurrentUser(user);
-                  $state.go('tab.home');
-                },
-                function() {
-                    $rootScope.$broadcast(AUTH_EVENTS.signinFailed);
-                }
-            );
+            AuthService.signin($scope.credentials).then(function(data) {
+                    $scope.user = data;    
+                    $state.go('tab.home');
+                }, function(error) {
+                    $scope.error = error;
+                });
         } else {
             $scope.signInForm.submitted = true;
         }

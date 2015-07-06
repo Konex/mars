@@ -16,7 +16,6 @@ signinDirectives.directive('formAutofillFix', [
                     .bind('submit', function (event) {
                     event.preventDefault();
                     element.find('input')
-                    .triggerHandler('input')
                     .triggerHandler('change')
                     .triggerHandler('keydown');
                     scope.$apply(attrs.ngSubmit);

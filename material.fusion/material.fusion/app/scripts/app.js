@@ -84,6 +84,6 @@ mars.config(['$stateProvider', '$urlRouterProvider',
             templateUrl: 'templates/tabs.html'
         });
 
-    $urlRouterProvider.otherwise('/tab/home');
+    $urlRouterProvider.otherwise('/signin');
 }]);
 
