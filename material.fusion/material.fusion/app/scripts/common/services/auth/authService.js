@@ -8,23 +8,27 @@ function authService ($http, $q, ApiService, API_NAME, Session, ACCESS_LEVEL, _)
         var uri = ApiService.getApiUri(API_NAME.signin);
 
         $http.post(uri, credentials).success(function(response) {            
-            Session.user(response);
-            deferred.resolve(response);
-        }).error(function(response) {
-            deferred.reject(response.message);
-        });
+                Session.user(response);
+                deferred.resolve(response);
+            }).error(function(response) {
+                deferred.reject(response.message);
+            });
 
         return deferred.promise;    
     };
 
     authService.signup = function (credentials) {
+        var deferred = $q.defer();
         var uri = ApiService.getApiUri(API_NAME.signup);
         
         $http.post(uri, credentials).success(function(response) {
                 Session.user(response);
+                deferred.resolve(response);
             }).error(function(response) {
-                response.message;
+                deferred.reject(response.message);
             });
+
+        return deferred.promise;    
     }
 
     authService.isAuthenticated = function () {
