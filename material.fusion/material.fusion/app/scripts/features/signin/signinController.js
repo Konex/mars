@@ -1,16 +1,6 @@
 'use strict';
 
-var signinController = angular.module('features.signinController', []);
-
-signinController.controller('SignInCtrl', [
-  '$scope', 
-  '$rootScope',
-  '$state', 
-  'AUTH_EVENTS', 
-  'AuthService',
-  
-  function($scope, $rootScope, $state, AUTH_EVENTS, AuthService) {
-
+function signInCtrl ($scope, $rootScope, $state, AUTH_EVENTS, AuthService) {
     $scope.credentials = {username: '', password: ''};
 
      $scope.signin = function () {
@@ -26,4 +16,6 @@ signinController.controller('SignInCtrl', [
             $scope.signInForm.submitted = true;
         }
     };
-}]);
+}
+
+angular.module('features.signinController', []).controller('SignInCtrl', signInCtrl);
