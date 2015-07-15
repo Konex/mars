@@ -1,8 +1,8 @@
 'use strict';
 
-var securityConstants = angular.module('common.services.auth.constants', [])
+var authConstants = angular.module('common.services.auth.constants', []);
 
-securityConstants.constant('AUTH_EVENTS', {
+authConstants.constant('AUTH_EVENTS', {
     signinSuccess: 'auth-login-success',
     signinFailed: 'auth-login-failed',
     signoutSuccess: 'auth-logout-success',
@@ -11,7 +11,7 @@ securityConstants.constant('AUTH_EVENTS', {
     notAuthorized: 'auth-not-authorized'
 });
 
-securityConstants.constant('USER_ROLES', {
+authConstants.constant('USER_ROLES', {
     all: 1,
     member: 2,
     friend: 4,
@@ -25,7 +25,7 @@ var USER_ROLES = {
     admin: 8
 };
 
-securityConstants.constant('ACCESS_LEVEL', {
+authConstants.constant('ACCESS_LEVEL', {
     ALL:     USER_ROLES.all |
              USER_ROLES.member |
              USER_ROLES.friend |

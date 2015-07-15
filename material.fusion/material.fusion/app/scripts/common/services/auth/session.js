@@ -11,6 +11,7 @@ function session () {
         this.id = null;
         this.userId = null;
         this.userRoles = null;
+        this.user = null;
     };
 
     this.user = function (user) {

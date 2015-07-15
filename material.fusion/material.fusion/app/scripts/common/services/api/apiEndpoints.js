@@ -8,9 +8,13 @@ angular.module('common.services.api.endpoint', [])
 		})
 	   .constant('API_ROUTE', {
 	   		signin: '/auth/signin',
-	   		signup: '/auth/signup'
+	   		signup: '/auth/signup',
+	   		createOrganization: '/organizations',
+	   		getAllOrganization: '/organizations'
 		})
 	   .constant('API_NAME', {
 	   		signin: 'signin',
-	   		signup: 'signup'
+	   		signup: 'signup',
+	   		createOrganization: 'createOrganizations',
+	   		getAllOrganization: 'getAllOrganization'
 	   });

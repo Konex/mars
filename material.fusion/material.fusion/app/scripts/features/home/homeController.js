@@ -1,13 +1,12 @@
 'use strict';
-var homeController = angular.module('features.homeController', []);
-
 
 var homeUi = {};
 (function (){
-	var $scope;
+	var $scope, $state;
 
-	function init(_$scope) {
+	function init(_$scope, _$state) {
 		$scope = _$scope;
+		$state = _$state;
 		
 		setDefaults();
 		wireHandlers();
@@ -18,18 +17,22 @@ var homeUi = {};
 	}
 
 	function wireHandlers() {
-		
+		$scope.createOrganization = createOrganization;
+		$scope.organizationClick =  organizationClick;
+	}
+
+	function createOrganization () {
+	}
+
+	function organizationClick () {
+		$state.go('tab.organization');
 	}
 
 	homeUi.init = init;
-
 })();
 
+function homeCtrl ($scope, $state) {
+	homeUi.init($scope, $state);
+}
 
-homeController.controller('HomeCtrl', [
-	'$scope',
-
-	function($scope) {
-  		homeUi.init($scope);
-	}
-]);
+angular.module('features.home.homeController', []).controller('HomeCtrl', homeCtrl);

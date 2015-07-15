@@ -10,7 +10,9 @@ var ApiServiceConfig = {};
 
 	var apiEnvConfig = {
 		signin: apiEnv.dev,
-		signup: apiEnv.dev
+		signup: apiEnv.dev,
+		createOrganization: apiEnv.dev,
+		getAllOrganization: apiEnv.dev
 	};
 
 	ApiServiceConfig.apiEnvConfig = apiEnvConfig;
