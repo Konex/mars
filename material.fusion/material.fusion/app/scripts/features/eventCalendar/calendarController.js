@@ -16,6 +16,7 @@ var uiControl = {};
 
 		setHandlers();
 		setConfigs();
+		$scope.refreshEventCount();
 	}
 
 	function setHandlers () {
@@ -71,6 +72,7 @@ var uiControl = {};
 		        	type: 'button-positive',
 		        	onTap: function(e) {
 			          	saveEvent(date, jsEvent, view, $scope.editEvent);
+
 			          	return;
 		        	}
 		      	}
@@ -123,6 +125,7 @@ var uiControl = {};
 		if (_.isEmpty($scope.eventSources)) $scope.eventSources.push($scope.events);
 
         eventCalendarService.set(eventKey, calendarEvent);
+    	$scope.refreshEventCount();
 
         delete $scope.newEvent;
 	}
