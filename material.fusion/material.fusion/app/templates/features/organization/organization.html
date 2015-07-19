@@ -19,9 +19,23 @@
 		    <p>
 		      Learn Karate! Get fit, get flexible, get strong and have fun. Our classes include self defence, circuit training, stretching and traditional karate - a perfect combination for a healthier you.
 		    </p>
+		    <a href="#" class="item item-icon-left">
+			    <i class="icon ion-ios-location"></i>
+			    12 Lake Road, Devonport
+			</a>
+
+			<a href="#" class="item item-icon-left">
+			    <i class="icon ion-ios-telephone"></i>
+			    120 234 1234
+			</a>
+
+			<a href="#" class="item item-icon-left">
+			    <i class="icon ion-ios-email"></i>
+			    martial.fusion@gmail.com
+			</a>
 		    <p>
-		      	<a href="#" class="subdued">1 Like</a>
-	      		<a href="#" class="subdued">5 Comments</a>
+		      	<a href="#" class="subdued"><i class="icon ion-ios-star"></i>1 Like</a>
+		      	<a href="#" class="subdued"><i class="icon ion-ios-people"></i>7 Members</a>
 		    </p>
 		</div>
 
@@ -50,17 +64,30 @@
 		        </ion-scroll>
 	        </div>
 		</div>
+
+
+
 		<div class="item item-divider"></div>
 
 
 		<!-- instructors -->
-		<div class="item item-divider"></div>
   		<div class="item item-body">
 	  		<div class="list">
-		       
+		        <div class="row responsive-sm">
+				    <div ng-repeat="instructor in instructors" class="item item-avatar">
+			    		<img src="{{instructor.image}}">
+			    		<h2>{{instructor.name}}</h2>
+			    		<p>{{instructor.desc}}</p>
+			  		</div>
+				</div>
 	        </div>
 		</div>
+
+
+
 		<div class="item item-divider"></div>
+
+
 
 	</ion-content>
 </ion-view>

@@ -1,20 +1,21 @@
 'use strict';
 
-var follow = angular.module('features.follow', [
+var me = angular.module('features.me', [
 ]);
 
-follow.config([
+me.config([
 	'$stateProvider',
   '$urlRouterProvider',
   'ACCESS_LEVEL',
+
   function($stateProvider, $urlRouterProvider, ACCESS_LEVEL) {
 
 	$stateProvider
-	.state('tab.follow', {
-      url: '/follow',
+	.state('tab.me', {
+      url: '/me',
       views: {
-        'follow-tab': {
-          templateUrl: 'templates/features/follow/follow.html'
+        'me-tab': {
+          templateUrl: 'templates/features/me/me.html'
         }
       },
       data: {

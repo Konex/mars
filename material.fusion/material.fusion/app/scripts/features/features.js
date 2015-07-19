@@ -3,8 +3,8 @@
 var features = angular.module('features', [
 	'features.eventCalendar',
 	'features.organization',
-	'features.follow',
 	'features.home',
+	'features.me',
 	'features.pulse',
 	'features.signin'
 ]);

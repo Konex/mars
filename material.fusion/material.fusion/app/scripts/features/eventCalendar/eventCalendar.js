@@ -18,7 +18,7 @@ eventCalendar.config([
 	.state('tab.eventCalendar', {
 			url: '/eventCalendar',
 			views: {
-				'home-tab': {
+				'pulse-tab': {
   					templateUrl: 'templates/features/eventCalendar/eventCalendar.html',
   					controller: 'CalendarCtrl'
 				}

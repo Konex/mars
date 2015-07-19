@@ -9,6 +9,7 @@
         <!-- <link rel="stylesheet" href="vendor/some.contrib.css"> -->
         <link rel="stylesheet" href="lib/fullcalendar/dist/fullcalendar.min.css" />
         <link rel="stylesheet" href="lib/clockpicker/dist/jquery-clockpicker.min.css" />
+        <link rel="stylesheet" href="lib/ionic-ion-horizontal-scroll-cards/hscrollcards.min.css">
         <!-- bower:css -->
         <link rel="stylesheet" href="lib/ionic/release/css/ionic.css" />
         <link rel="stylesheet" href="lib/ionicons/css/ionicons.css" />
@@ -51,13 +52,7 @@
                         <span class="badge badge-assertive">{{eventCount}}</span>
                     </a>
 
-                    <a class="item item-icon-left" href="#">
-                        <i class="icon ion-person-stalker"></i>
-                        Members
-                        <span class="badge badge-assertive">7</span>
-                    </a>
-
-                    <a class="item item-icon-left" href="#">
+                    <a class="item item-icon-left" href="#/tab/me">
                         <i class="icon ion-ios-gear"></i>
                         Settings
                     </a>
@@ -114,9 +109,6 @@
     <script src="scripts/features/eventCalendar/calendarController.js"></script>
     <script src="scripts/features/eventCalendar/eventCalendar.js"></script>
 
-    <script src="scripts/features/follow/follow.js"></script>
-    <script src="scripts/features/follow/followController.js"></script>
-
     <script src="scripts/features/home/homeConstants.js"></script>
     <script src="scripts/features/home/homeModule.js"></script>
     <script src="scripts/features/home/homeController.js"></script>
@@ -127,6 +119,9 @@
 
     <script src="scripts/features/pulse/pulse.js"></script>
     <script src="scripts/features/pulse/pulseController.js"></script>
+
+    <script src="scripts/features/me/me.js"></script>
+    <script src="scripts/features/me/meController.js"></script>
 
     <script src="scripts/features/signin/signin.js"></script>
     <script src="scripts/features/signin/signinController.js"></script>
