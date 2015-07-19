@@ -2,5 +2,6 @@
 
 var common = angular.module('common', [
 	'common.services.auth',
-	'common.services.api'
+	'common.services.api',
+	'common.directives.marsCalendar'
 ]);

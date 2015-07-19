@@ -13,6 +13,7 @@ var organizationUi = {};
 
 	function setDefaults() {
 		$scope.instructors = getInstructors();
+		$scope.calendarEventSource = [];
 	}
 
 	function wireHandlers() {
