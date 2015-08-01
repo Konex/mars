@@ -1,5 +1,33 @@
 'use strict';
 
+var marsCalendarInit = {};
+(function() {
+  var $scope, $q, eventCalendarService;
+
+  function init(_scope, _q, _eventCalendarService) {
+    $scope = _scope;
+    $q = _q;
+    eventCalendarService = _eventCalendarService;
+    $scope.eventSources = $scope.events = [];
+     
+    loadData();
+  }
+
+  function loadData () {
+    var promise = eventCalendarService.getAll();
+    
+    promise.then(function(data) {
+      if (!_.isEmpty(data)) { // TODO: remove null check.
+        $scope.events = data;
+        $scope.eventSources.push($scope.events);
+      }
+    });
+  }
+
+  marsCalendarInit.init = init;
+})();
+
+
 var organizationUi = {};
 (function (){
 	var $scope;
@@ -13,7 +41,6 @@ var organizationUi = {};
 
 	function setDefaults() {
 		$scope.instructors = getInstructors();
-		$scope.calendarEventSource = [];
 	}
 
 	function wireHandlers() {
@@ -56,7 +83,8 @@ var organizationUi = {};
 	organizationUi.init = init;
 })();
 
-function organizationCtrl ($scope) {
+function organizationCtrl ($scope, $q, EventCalendarService) {
+	marsCalendarInit.init($scope, $q, EventCalendarService);  
 	organizationUi.init($scope);
 }
 

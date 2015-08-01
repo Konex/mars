@@ -1,34 +1,5 @@
 'use strict';
 
-var marsCalendarInit = {};
-(function() {
-  var $scope, $q, eventCalendarService;
-
-  function init(_scope, _q, _eventCalendarService) {
-    $scope = _scope;
-    $q = _q;
-    eventCalendarService = _eventCalendarService;
-    $scope.eventSources = $scope.events = [];
-     
-    loadData();
-  }
-
-  function loadData () {
-    var promise = eventCalendarService.getAll();
-    
-    promise.then(function(data) {
-      if (!_.isEmpty(data)) { // TODO: remove null check.
-        $scope.events = data;
-        $scope.eventSources.push($scope.events);  
-      }
-    });
-  }
-
-  marsCalendarInit.init = init;
-})();
-
-
-
 var marsCalendarControl = {};
 (function() {
     var $scope, $ionicPopup, uiCalendarConfig, eventCalendarService;
@@ -190,9 +161,20 @@ function marsCalendar ($q, $ionicPopup, uiCalendarConfig, EventCalendarService) 
     scope: {
         eventSources: '='
     },
-    link: function ($scope, $element, $attrs) {
-        marsCalendarInit.init($scope, $q, EventCalendarService);  
-         marsCalendarControl.init($scope, $ionicPopup, uiCalendarConfig, EventCalendarService);
+    link: function (scope, element, attrs) {
+
+        // $q.when(scope.eventSources).then(function(eventSources){
+        //     scope.eventSources = eventSources;
+            
+        // });
+
+        scope.$watch('eventSources', function(newVal) {
+            if(newVal) { scope.eventSources = newVal;}
+        });
+
+        scope.eventSources = [];
+
+        marsCalendarControl.init(scope, $ionicPopup, uiCalendarConfig, EventCalendarService);
     }
   };
 }
