@@ -1,34 +1,41 @@
 'use strict';
 
-var marsCalendarInit = {};
+var organizationCalendar = {};
 (function() {
-  var $scope, $q, eventCalendarService;
+	var $scope, $q, eventCalendarService;
 
-  function init(_scope, _q, _eventCalendarService) {
-    $scope = _scope;
-    $q = _q;
-    eventCalendarService = _eventCalendarService;
-    $scope.eventSources = $scope.events = [];
-     
-    loadData();
-  }
+	function init(_scope, _q, _eventCalendarService) {
+		setValues(_scope, _q, _eventCalendarService);
+		//setDefaults(); 
+		//loadData();
+	}
 
-  function loadData () {
-    var promise = eventCalendarService.getAll();
-    
-    promise.then(function(data) {
-      if (!_.isEmpty(data)) { // TODO: remove null check.
-        $scope.events = data;
-        $scope.eventSources.push($scope.events);
-      }
-    });
-  }
+	function setValues(_scope, _q, _eventCalendarService) {
+		$scope = _scope;
+		$q = _q;
+		eventCalendarService = _eventCalendarService;
+	}
 
-  marsCalendarInit.init = init;
+	function setDefaults() {
+		$scope.eventSources = $scope.events = [];
+	}
+
+	function loadData () {
+		var promise = eventCalendarService.getAll();
+
+		promise.then(function(data) {
+		  if (!_.isEmpty(data)) { // TODO: remove null check.
+		    $scope.events = data;
+		    $scope.eventSources.push($scope.events);
+		  }
+		});
+	}
+
+  	organizationCalendar.init = init;
 })();
 
 
-var organizationUi = {};
+var organization = {};
 (function (){
 	var $scope;
 
@@ -41,6 +48,7 @@ var organizationUi = {};
 
 	function setDefaults() {
 		$scope.instructors = getInstructors();
+		$scope.calendarConfig = {eventType: 'organization'};
 	}
 
 	function wireHandlers() {
@@ -80,12 +88,13 @@ var organizationUi = {};
 	  });
 	}
 
-	organizationUi.init = init;
+	organization.init = init;
 })();
 
 function organizationCtrl ($scope, $q, EventCalendarService) {
-	marsCalendarInit.init($scope, $q, EventCalendarService);  
-	organizationUi.init($scope);
+	organizationCalendar.init($scope, $q, EventCalendarService);  
+	organization.init($scope);
 }
 
-angular.module('features.organization.organizationController', []).controller('OrganizationCtrl', organizationCtrl);
+angular.module('features.organization.organizationController', [])
+.controller('OrganizationCtrl', organizationCtrl);

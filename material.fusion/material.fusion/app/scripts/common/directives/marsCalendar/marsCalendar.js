@@ -6,6 +6,8 @@ var marsCalendarControl = {};
 
     function init(_scope, _ionicPopup, _uiCalendarConfig, _MarsCalendarService) {
         initValues(_scope, _ionicPopup, _uiCalendarConfig, _MarsCalendarService);
+        setDefaults();
+        loadEvents();
         setConfigs();
     }
 
@@ -18,12 +20,24 @@ var marsCalendarControl = {};
 
     function setDefaults() {
         $scope.events = [];
+        $scope.eventSources = [];
     }
 
     function setConfigs() {
         setClockPickerConfig();
         setDatePickerConfig();
         setCalendarConfig();
+    }
+
+    function loadEvents () {
+        var promise = calendarService.getAll();
+
+        promise.then(function(data) {
+          if (!_.isEmpty(data)) { // TODO: remove null check.
+            $scope.events = data;
+            $scope.eventSources.push($scope.events);
+          }
+        });
     }
 
     function setClockPickerConfig() {
@@ -126,8 +140,7 @@ var marsCalendarControl = {};
         if (_.isEmpty($scope.eventSources)) $scope.eventSources.push($scope.events);
 
         calendarService.set(eventKey, calendarEvent);
-        $scope.refreshEventCount();
-
+        
         delete $scope.newEvent;
     }
     function saveEvent (date, jsEvent, view, editEvent) {
@@ -157,17 +170,18 @@ var marsCalendarControl = {};
     marsCalendarControl.init = init;
 })();
 
+function calendarCtrl($scope, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
+    marsCalendarControl.init($scope, $ionicPopup, uiCalendarConfig, MarsCalendarService);
+}
 
 function marsCalendar ($q, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
   return {
     restrict: 'E',
     templateUrl: 'scripts/common/directives/marsCalendar/html/event-calendar.html',
     scope: {
-        eventSources: '='
+        calendarConfig: '@'
     },
-    link: function (scope, element, attrs) {
-        marsCalendarControl.init(scope, $ionicPopup, uiCalendarConfig, MarsCalendarService);
-    }
+    controller: calendarCtrl
   };
 }
 angular
