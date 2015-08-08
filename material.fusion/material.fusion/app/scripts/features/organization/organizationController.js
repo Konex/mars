@@ -1,40 +1,5 @@
 'use strict';
 
-var organizationCalendar = {};
-(function() {
-	var $scope, $q, eventCalendarService;
-
-	function init(_scope, _q, _eventCalendarService) {
-		setValues(_scope, _q, _eventCalendarService);
-		//setDefaults(); 
-		//loadData();
-	}
-
-	function setValues(_scope, _q, _eventCalendarService) {
-		$scope = _scope;
-		$q = _q;
-		eventCalendarService = _eventCalendarService;
-	}
-
-	function setDefaults() {
-		$scope.eventSources = $scope.events = [];
-	}
-
-	function loadData () {
-		var promise = eventCalendarService.getAll();
-
-		promise.then(function(data) {
-		  if (!_.isEmpty(data)) { // TODO: remove null check.
-		    $scope.events = data;
-		    $scope.eventSources.push($scope.events);
-		  }
-		});
-	}
-
-  	organizationCalendar.init = init;
-})();
-
-
 var organization = {};
 (function (){
 	var $scope;
@@ -92,7 +57,6 @@ var organization = {};
 })();
 
 function organizationCtrl ($scope, $q, EventCalendarService) {
-	organizationCalendar.init($scope, $q, EventCalendarService);  
 	organization.init($scope);
 }
 
