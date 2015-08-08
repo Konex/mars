@@ -2,18 +2,25 @@
 
 var marsCalendarControl = {};
 (function() {
-    var $scope, $ionicPopup, uiCalendarConfig, eventCalendarService;
+    var $scope, $ionicPopup, uiCalendarConfig, calendarService;
 
-    function init(_scope, _ionicPopup, _uiCalendarConfig, _EventCalendarService) {
-        $scope = _scope;
-        $ionicPopup = _ionicPopup;
-        uiCalendarConfig = _uiCalendarConfig;
-        eventCalendarService = _EventCalendarService;
-
+    function init(_scope, _ionicPopup, _uiCalendarConfig, _MarsCalendarService) {
+        initValues(_scope, _ionicPopup, _uiCalendarConfig, _MarsCalendarService);
         setConfigs();
     }
 
-    function setConfigs () {
+    function initValues(_scope, _ionicPopup, _uiCalendarConfig, _MarsCalendarService) {
+        $scope = _scope;
+        $ionicPopup = _ionicPopup;
+        uiCalendarConfig = _uiCalendarConfig;
+        calendarService = _MarsCalendarService;
+    }
+
+    function setDefaults() {
+        $scope.events = [];
+    }
+
+    function setConfigs() {
         setClockPickerConfig();
         setDatePickerConfig();
         setCalendarConfig();
@@ -52,8 +59,8 @@ var marsCalendarControl = {};
         var editEvent = _.find($scope.events, 'id', date.id)
         $scope.editEvent = angular.copy(editEvent);
 
-        var myPopup = $ionicPopup.show({
-            templateUrl: 'scripts/common/directives/marsCalendar/edit-event.html',
+        $ionicPopup.show({
+            templateUrl: 'scripts/common/directives/marsCalendar/html/edit-event.html',
             title: date.title,
             subTitle: 'Please use normal things',
             scope: $scope,
@@ -64,7 +71,6 @@ var marsCalendarControl = {};
                     type: 'button-positive',
                     onTap: function(e) {
                         saveEvent(date, jsEvent, view, $scope.editEvent);
-
                         return;
                     }
                 }
@@ -77,8 +83,8 @@ var marsCalendarControl = {};
     function dayClick (date, jsEvent, view) {
         $scope.newEvent = getNewEvent(date);
  
-        var myPopup = $ionicPopup.show({
-            templateUrl: 'scripts/common/directives/marsCalendar/new-event.html',
+        $ionicPopup.show({
+            templateUrl: 'scripts/common/directives/marsCalendar/html/new-event.html',
             title: 'New Event',
             subTitle: 'Please use normal things',
             scope: $scope,
@@ -119,7 +125,7 @@ var marsCalendarControl = {};
         // as it will always reference the empty event array!  
         if (_.isEmpty($scope.eventSources)) $scope.eventSources.push($scope.events);
 
-        eventCalendarService.set(eventKey, calendarEvent);
+        calendarService.set(eventKey, calendarEvent);
         $scope.refreshEventCount();
 
         delete $scope.newEvent;
@@ -129,7 +135,7 @@ var marsCalendarControl = {};
         editEvent.start = formatDateTime(editEvent.startDate, editEvent.startTime);
         editEvent.end = formatDateTime(editEvent.endDate, editEvent.endTime);
         $scope.events[index] = editEvent;
-        eventCalendarService.set(editEvent.id, editEvent);
+        calendarService.set(editEvent.id, editEvent);
         delete $scope.editEvent;
     }
     function formatDateTime (date, time) {
@@ -152,32 +158,19 @@ var marsCalendarControl = {};
 })();
 
 
-
-
-function marsCalendar ($q, $ionicPopup, uiCalendarConfig, EventCalendarService) {
+function marsCalendar ($q, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
   return {
     restrict: 'E',
-    templateUrl: 'scripts/common/directives/marsCalendar/event-calendar.html',
+    templateUrl: 'scripts/common/directives/marsCalendar/html/event-calendar.html',
     scope: {
         eventSources: '='
     },
     link: function (scope, element, attrs) {
-
-        // $q.when(scope.eventSources).then(function(eventSources){
-        //     scope.eventSources = eventSources;
-            
-        // });
-
-        scope.$watch('eventSources', function(newVal) {
-            if(newVal) { scope.eventSources = newVal;}
-        });
-
-        scope.eventSources = [];
-
-        marsCalendarControl.init(scope, $ionicPopup, uiCalendarConfig, EventCalendarService);
+        marsCalendarControl.init(scope, $ionicPopup, uiCalendarConfig, MarsCalendarService);
     }
   };
 }
 angular
-  .module('common.directives.marsCalendar', ['ui.calendar', 'angular-datepicker', 'marsClockPicker'])
+  .module('common.directives.marsCalendar', 
+    ['ui.calendar', 'angular-datepicker', 'marsClockPicker', 'marsCalendar.marsCalendarService'])
   .directive('marsCalendar', marsCalendar);
