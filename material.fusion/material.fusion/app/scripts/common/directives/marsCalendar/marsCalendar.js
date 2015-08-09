@@ -2,20 +2,21 @@
 
 var marsCalendarControl = {};
 (function() {
-    var $scope, $ionicPopup, uiCalendarConfig, calendarService;
+    var $scope, $ionicPopup, uiCalendarConfig, calendarUiControlService, calendarService;
 
-    function init(_scope, _ionicPopup, _uiCalendarConfig, _MarsCalendarService) {
-        initValues(_scope, _ionicPopup, _uiCalendarConfig, _MarsCalendarService);
+    function init(injectedValues) {
+        initWith(injectedValues);
         setDefaults();
         loadEvents();
         setConfigs();
     }
 
-    function initValues(_scope, _ionicPopup, _uiCalendarConfig, _MarsCalendarService) {
-        $scope = _scope;
-        $ionicPopup = _ionicPopup;
-        uiCalendarConfig = _uiCalendarConfig;
-        calendarService = _MarsCalendarService;
+    function initWith(injectedValues) {
+        $scope = injectedValues._scope;
+        $ionicPopup = injectedValues._ionicPopup;
+        uiCalendarConfig = injectedValues._uiCalendarConfig;
+        calendarService = injectedValues._MarsCalendarService;
+        calendarUiControlService = injectedValues._CalendarUiControlService;
     }
 
     function setDefaults() {
@@ -30,6 +31,7 @@ var marsCalendarControl = {};
     }
 
     function loadEvents () {
+
         var promise = calendarService.getAll();
 
         promise.then(function(data) {
@@ -135,8 +137,9 @@ var marsCalendarControl = {};
 
         $scope.events.push(calendarEvent);
         
-        // Can't push an empty events array into eventSources in initCalender,
-        // as it will always reference the empty event array!  
+        // If we push an empty events array into eventSources in loadEvents
+        // it will always reference the empty event array!
+        // So we have to do a null check here upon first event create.  
         if (_.isEmpty($scope.eventSources)) $scope.eventSources.push($scope.events);
 
         calendarService.set(eventKey, calendarEvent);
@@ -170,11 +173,24 @@ var marsCalendarControl = {};
     marsCalendarControl.init = init;
 })();
 
-function calendarCtrl($scope, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
-    marsCalendarControl.init($scope, $ionicPopup, uiCalendarConfig, MarsCalendarService);
+
+
+function calendarCtrl($scope, $ionicPopup, uiCalendarConfig, CalendarUiControlService, MarsCalendarService) {
+
+    var injectedValues = {
+        _scope: $scope,
+        _ionicPopup: $ionicPopup,
+        _uiCalendarConfig: uiCalendarConfig,
+        _CalendarUiControlService: CalendarUiControlService, 
+        _MarsCalendarService: MarsCalendarService
+    };
+
+    marsCalendarControl.init(injectedValues);
 }
 
-function marsCalendar ($q, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
+
+
+function marsCalendar ($q, $ionicPopup, uiCalendarConfig, CalendarUiControlService, MarsCalendarService) {
   return {
     restrict: 'E',
     templateUrl: 'scripts/common/directives/marsCalendar/html/event-calendar.html',
@@ -186,5 +202,6 @@ function marsCalendar ($q, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
 }
 angular
   .module('common.directives.marsCalendar', 
-    ['ui.calendar', 'angular-datepicker', 'marsClockPicker', 'marsCalendar.marsCalendarService'])
+    ['ui.calendar', 'angular-datepicker', 'marsClockPicker', 
+    'marsCalendar.calendarUiControlService', 'marsCalendar.marsCalendarService'])
   .directive('marsCalendar', marsCalendar);

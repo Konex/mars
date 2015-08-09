@@ -1,8 +1,8 @@
 'use strict';
 
-var eventCalendarModel = angular.module('marsCalendar.marsCalendarService', []);
+angular.module('marsCalendar.marsCalendarService', [])
 
-eventCalendarModel.factory('MarsCalendarService', [
+.factory('MarsCalendarService', [
 	'$q',
 	'DataAccessService',
 
@@ -17,6 +17,10 @@ eventCalendarModel.factory('MarsCalendarService', [
 			}
 
 			return eventArrayObj[key];
+		}
+
+		function getByType() {
+
 		}
 
 		function getAll() {
