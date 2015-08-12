@@ -2,7 +2,7 @@
 
 var marsCalendarControl = {};
 (function() {
-    var $scope, $ionicPopup, uiCalendarConfig, calendarUiControlService, calendarService;
+    var $scope, $ionicPopup, uiCalendarConfig, calendarService;
 
     function init(injectedValues) {
         initWith(injectedValues);
@@ -16,7 +16,7 @@ var marsCalendarControl = {};
         $ionicPopup = injectedValues._ionicPopup;
         uiCalendarConfig = injectedValues._uiCalendarConfig;
         calendarService = injectedValues._MarsCalendarService;
-        calendarUiControlService = injectedValues._CalendarUiControlService;
+        calendarService.setEventType($scope.calendarConfig.eventType);
     }
 
     function setDefaults() {
@@ -31,7 +31,6 @@ var marsCalendarControl = {};
     }
 
     function loadEvents () {
-
         var promise = calendarService.getAll();
 
         promise.then(function(data) {
@@ -86,18 +85,20 @@ var marsCalendarControl = {};
                     text: '<b>Save</b>',
                     type: 'button-positive',
                     onTap: function(e) {
-                        saveEvent(date, jsEvent, view, $scope.editEvent);
+                        updateEvent(date, jsEvent, view, $scope.editEvent);
                         return;
                     }
                 }
             ]
         });
     }
+
     function eventDrop () {
 
     }
+
     function dayClick (date, jsEvent, view) {
-        $scope.newEvent = getNewEvent(date);
+        $scope.newEvent = calendarService.getNewEventBasedOn(date);
  
         $ionicPopup.show({
             templateUrl: 'scripts/common/directives/marsCalendar/html/new-event.html',
@@ -118,79 +119,32 @@ var marsCalendarControl = {};
         });
     }
     function addEvent(date, jsEvent, view) {
-        var eventKey = $scope.events ? $scope.events.length + 1 : 1;
-        
-        var calendarEvent = {
-            id: eventKey,
-            eventKey: eventKey,
-            title: $scope.newEvent.title,
-            startDate: $scope.newEvent.startDate,
-            startTime: $scope.newEvent.startTime,
-            endDate: $scope.newEvent.endDate,
-            endTime: $scope.newEvent.endTime,
-            start: formatDateTime($scope.newEvent.startDate, $scope.newEvent.startTime),
-            end: formatDateTime($scope.newEvent.endDate, $scope.newEvent.endTime),
-            allDay: $scope.newEvent.allDay,
-            location: $scope.newEvent.location,
-            note: $scope.newEvent.note
-        };
-
-        $scope.events.push(calendarEvent);
-        
-        // If we push an empty events array into eventSources in loadEvents
-        // it will always reference the empty event array!
-        // So we have to do a null check here upon first event create.  
-        if (_.isEmpty($scope.eventSources)) $scope.eventSources.push($scope.events);
-
-        calendarService.set(eventKey, calendarEvent);
-        
-        delete $scope.newEvent;
+        var calendarEvent = calendarService.addEvent($scope.newEvent);
+        calendarService.addNewEventToCalendar($scope.eventSources, $scope.events, calendarEvent);
     }
-    function saveEvent (date, jsEvent, view, editEvent) {
-        var index = _.indexOf($scope.events, _.find($scope.events, 'id', editEvent.id));
-        editEvent.start = formatDateTime(editEvent.startDate, editEvent.startTime);
-        editEvent.end = formatDateTime(editEvent.endDate, editEvent.endTime);
-        $scope.events[index] = editEvent;
-        calendarService.set(editEvent.id, editEvent);
-        delete $scope.editEvent;
+    function updateEvent (date, jsEvent, view, modifiedEvent) {
+        calendarService.updateEvent(modifiedEvent);
+        calendarService.updateCalendar($scope, modifiedEvent);
     }
-    function formatDateTime (date, time) {
-        return new Date(date + ' ' + time);
-    }
-    function getNewEvent (date) {
-        var newEvent = {};
-        newEvent.title = "";
-        newEvent.allDay = false;
-        newEvent.startDate = date.format('LL');
-        newEvent.startTime = '00:00';
-        newEvent.endDate = date.format('LL');
-        newEvent.endTime = '01:00';
-        newEvent.location = 'Devonport Primary School',
-        newEvent.note = ''
-        return newEvent; 
-    }
-
+    
     marsCalendarControl.init = init;
 })();
 
 
 
-function calendarCtrl($scope, $ionicPopup, uiCalendarConfig, CalendarUiControlService, MarsCalendarService) {
-
+function calendarCtrl($scope, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
     var injectedValues = {
         _scope: $scope,
         _ionicPopup: $ionicPopup,
-        _uiCalendarConfig: uiCalendarConfig,
-        _CalendarUiControlService: CalendarUiControlService, 
+        _uiCalendarConfig: uiCalendarConfig, 
         _MarsCalendarService: MarsCalendarService
     };
-
     marsCalendarControl.init(injectedValues);
 }
 
 
 
-function marsCalendar ($q, $ionicPopup, uiCalendarConfig, CalendarUiControlService, MarsCalendarService) {
+function marsCalendar ($q, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
   return {
     restrict: 'E',
     templateUrl: 'scripts/common/directives/marsCalendar/html/event-calendar.html',
@@ -202,6 +156,5 @@ function marsCalendar ($q, $ionicPopup, uiCalendarConfig, CalendarUiControlServi
 }
 angular
   .module('common.directives.marsCalendar', 
-    ['ui.calendar', 'angular-datepicker', 'marsClockPicker', 
-    'marsCalendar.calendarUiControlService', 'marsCalendar.marsCalendarService'])
+    ['ui.calendar', 'angular-datepicker', 'marsClockPicker', 'marsCalendar.marsCalendarService'])
   .directive('marsCalendar', marsCalendar);
