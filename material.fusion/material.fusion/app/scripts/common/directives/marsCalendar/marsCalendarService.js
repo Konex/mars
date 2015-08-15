@@ -4,32 +4,28 @@ angular.module('marsCalendar.marsCalendarService', [])
 .factory('MarsCalendarService', ['$q', 'DataAccessService',
 
 	function($q, DataAccessService) {
-		var _events = {};
-		var modelName = 'EventCalendarModel';
-		var eventType;
-
+		var c = 1;
+		
 		function formatDateTime (date, time) {
         	return new Date(date + ' ' + time);
     	}
-
-		function setEventType(type) {
-			eventType = type;
+    	
+		function getUniqueId() {
+		    var d = new Date(),
+		        m = d.getMilliseconds() + "",
+		        u = ++d + m + (++c === 10000 ? (c = 1) : c);
+		    return u;
 		}
 
-		function updateEvent(event) {
-	        event.start = formatDateTime(event.startDate, event.startTime);
-	        event.end = formatDateTime(event.endDate, event.endTime);
-	        saveEvent(event);
+		function updateEvent(events, calendarEvent) {
+			var index = _.indexOf(events, _.find(events, 'id', calendarEvent.id));
+	        calendarEvent.start = formatDateTime(calendarEvent.startDate, calendarEvent.startTime);
+	        calendarEvent.end = formatDateTime(calendarEvent.endDate, calendarEvent.endTime);
+	        events[index] = calendarEvent;
+	        save(calendarEvent);
 		}
 
-		function updateCalendar(scope, modifiedEvent) {
-			var index = _.indexOf(scope.events, _.find(scope.events, 'id', modifiedEvent.id));
-	        modifiedEvent.start = formatDateTime(modifiedEvent.startDate, modifiedEvent.startTime);
-	        modifiedEvent.end = formatDateTime(modifiedEvent.endDate, modifiedEvent.endTime);
-	        scope.events[index] = modifiedEvent;
-		}
-
-		function getNewEventBasedOn(date) {
+		function getNewEventBy(date, eventType) {
 	        var newEvent = {};
 	        newEvent.title = "";
 	        newEvent.allDay = false;
@@ -37,34 +33,27 @@ angular.module('marsCalendar.marsCalendarService', [])
 	        newEvent.startTime = '00:00';
 	        newEvent.endDate = date.format('LL');
 	        newEvent.endTime = '01:00';
-	        newEvent.location = 'Devonport Primary School',
-	        newEvent.note = ''
+	        newEvent.location = 'Devonport Primary School';
+	        newEvent.note = '';
+	        newEvent.eventType = eventType;
 	        return newEvent; 
     	}
 
     	function addEvent(dateEvent) {    		
-	        var calendarEvent = getEventFrom(dateEvent);  
-	        saveEvent(calendarEvent);
+	        var calendarEvent = getCalendarEventFrom(dateEvent);  
+	        save(calendarEvent);
 	        return calendarEvent;
     	}
 
-    	function getEventFrom(dateEvent) {
-    		var eventKey = Object.keys(_events).length++;
-
-    		return {
-    			id: eventKey, 
-    			eventKey: eventKey,
-	            title: dateEvent.title,
-	            startDate: dateEvent.startDate,
-	            startTime: dateEvent.startTime,
-	            endDate: dateEvent.endDate,
-	            endTime: dateEvent.endTime,
-	            start: formatDateTime(dateEvent.startDate, dateEvent.startTime),
-	            end: formatDateTime(dateEvent.endDate, dateEvent.endTime),
-	            allDay: dateEvent.allDay,
-	            location: dateEvent.location,
-	            note: dateEvent.note
-	        };
+    	function getCalendarEventFrom(dateEvent) {
+    		var calendarEvent = angular.copy(dateEvent);
+    		var eventKey = getUniqueId();
+    		calendarEvent._id = calendarEvent.id = eventKey;
+    		calendarEvent.eventKey = eventKey;
+    		calendarEvent.start = formatDateTime(dateEvent.startDate, dateEvent.startTime);
+    		calendarEvent.end = formatDateTime(dateEvent.endDate, dateEvent.endTime);
+    		
+    		return calendarEvent;
     	}
 
     	function addNewEventToCalendar(eventSources, events, calendarEvent) {
@@ -75,56 +64,33 @@ angular.module('marsCalendar.marsCalendarService', [])
 	        if (_.isEmpty(eventSources)) eventSources.push(events);
     	}
 
-		function get(key) {
-			if (!_events[key]) {
-				var calenderEvent = DataAccessService.get(modelName, key);
-				_events[key] = calenderEvent;
-			}
-			return _events[key];
-		}
-
-		function getByType() {
-
-		}
-
-		function getAll() {
+		function getAllBy(eventType) {
 			var deferred = $q.defer();
-			var result = DataAccessService.getAll(modelName);
+			var result = DataAccessService.getAll(getModelNameBy(eventType), eventType);
 			result.then(function(data) {
-				__updateModel(data);
 				deferred.resolve(data);
 			});
-			return deferred.promise;
+			return deferred.promise;	
 		}
 
-		function saveEvent(event) {
-			_events[event.id] = event;
-			DataAccessService.set(modelName, event.id, event);
+		function save(calendarEvent) {
+			DataAccessService.set(getModelNameBy(calendarEvent.eventType), calendarEvent.id, calendarEvent);
 		}
 
 		function remove(key) {
-			if (_events[key]) {
-				delete _events[key];
-				DataAccessService.remove(modelName, key);
-			}
+			DataAccessService.remove(modelName, key);
 		}
 
-		function __updateModel(events) {
-			_.each(events, function(calenderEvent) {
-				_events[calenderEvent.eventID] = calenderEvent;
-			});
+		function getModelNameBy(eventType) {
+			return eventType + 'CalendarEvent';
 		}
 
 		return {
-			setEventType: setEventType,
-			getNewEventBasedOn: getNewEventBasedOn,
+			getNewEventBy: getNewEventBy,
 			updateEvent: updateEvent,
-			updateCalendar: updateCalendar,
 			addEvent: addEvent,
 			addNewEventToCalendar: addNewEventToCalendar,
-			get: get,
-			getAll: getAll,
-			set: saveEvent,
+			getAllBy: getAllBy,
 			remove: remove   
 		};
 	}

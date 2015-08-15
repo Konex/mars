@@ -7,9 +7,13 @@ var ACCESS_MODE = {
 	local: 'local'
 };
 
-var MODEL_DATA_ACCESS_MODE = {
-	EventCalendarModel: ACCESS_MODE.local
-	//TODO: add model access mode here
+var DATA_ACCESS_MODE = {
+	organizationCalendarEvent: ACCESS_MODE.local,
+	personalCalendarEvent: ACCESS_MODE.local
+	//TODO: here is a connascence of location where model name here 
+	//      has to matcch to the model name that a feature saves via
+	//      DataAccessService.
+	//      
 };	
 
 dataAccessService.factory('DataAccessService', [
@@ -17,7 +21,7 @@ dataAccessService.factory('DataAccessService', [
 	function (localStorageService, ApiService, $q) {
 
 		function get(modelName, key) {
-			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
+			if (DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
 				return localStorageService.getItem(modelName, key);
 			} else {
 				// TODO: api call
@@ -25,7 +29,7 @@ dataAccessService.factory('DataAccessService', [
 		}
 
 		function set(modelName, key, value) {
-			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
+			if (DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
 				localStorageService.setItem(modelName, key, value);
 			} else {
 				// TODO: api call
@@ -35,7 +39,7 @@ dataAccessService.factory('DataAccessService', [
 		function getAll(modelName) {
 			var deferred = $q.defer();
 
-			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
+			if (DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
 				var result = localStorageService.getAll(modelName);
 				result.then(function(data) {
 					deferred.resolve(data);
@@ -47,7 +51,7 @@ dataAccessService.factory('DataAccessService', [
 		}
 
 		function remove() {
-			if (MODEL_DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
+			if (DATA_ACCESS_MODE[modelName] == ACCESS_MODE.local) {
 				localStorageService.removeItem(modelName, key);
 			} else {
 				// TODO: api call

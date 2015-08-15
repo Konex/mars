@@ -16,7 +16,6 @@ var marsCalendarControl = {};
         $ionicPopup = injectedValues._ionicPopup;
         uiCalendarConfig = injectedValues._uiCalendarConfig;
         calendarService = injectedValues._MarsCalendarService;
-        calendarService.setEventType($scope.calendarConfig.eventType);
     }
 
     function setDefaults() {
@@ -31,7 +30,7 @@ var marsCalendarControl = {};
     }
 
     function loadEvents () {
-        var promise = calendarService.getAll();
+        var promise = calendarService.getAllBy($scope.eventType);
 
         promise.then(function(data) {
           if (!_.isEmpty(data)) { // TODO: remove null check.
@@ -80,9 +79,17 @@ var marsCalendarControl = {};
             subTitle: 'Please use normal things',
             scope: $scope,
             buttons: [
+                { 
+                    text: 'Delete',
+                    type: 'button-assertive',
+                    onTap: function(e) {
+                        deleteEvent(date, jsEvent, view, $scope.editEvent);
+                        return;
+                    } 
+                },
                 { text: 'Cancel' },
                 {
-                    text: '<b>Save</b>',
+                    text: '<b>Update</b>',
                     type: 'button-positive',
                     onTap: function(e) {
                         updateEvent(date, jsEvent, view, $scope.editEvent);
@@ -93,12 +100,8 @@ var marsCalendarControl = {};
         });
     }
 
-    function eventDrop () {
-
-    }
-
     function dayClick (date, jsEvent, view) {
-        $scope.newEvent = calendarService.getNewEventBasedOn(date);
+        $scope.newEvent = calendarService.getNewEventBy(date, $scope.eventType);
  
         $ionicPopup.show({
             templateUrl: 'scripts/common/directives/marsCalendar/html/new-event.html',
@@ -118,13 +121,22 @@ var marsCalendarControl = {};
             ]
         });
     }
+
     function addEvent(date, jsEvent, view) {
         var calendarEvent = calendarService.addEvent($scope.newEvent);
         calendarService.addNewEventToCalendar($scope.eventSources, $scope.events, calendarEvent);
     }
+
     function updateEvent (date, jsEvent, view, modifiedEvent) {
-        calendarService.updateEvent(modifiedEvent);
-        calendarService.updateCalendar($scope, modifiedEvent);
+        calendarService.updateEvent($scope.events, modifiedEvent);
+    }
+
+
+    function deleteEvent (date, jsEvent, view, modifiedEvent) {
+        
+    }
+
+    function eventDrop () {
     }
     
     marsCalendarControl.init = init;
@@ -149,7 +161,7 @@ function marsCalendar ($q, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
     restrict: 'E',
     templateUrl: 'scripts/common/directives/marsCalendar/html/event-calendar.html',
     scope: {
-        calendarConfig: '@'
+        eventType: '@'
     },
     controller: calendarCtrl
   };

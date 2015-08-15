@@ -8,7 +8,7 @@ eventCalendarModel.factory('EventCalendarService', [
 
 	function($q, DataAccessService) {
 		var eventArrayObj = {};
-		var modelName = 'EventCalendarModel';
+		var modelName = 'personalCalendarEvent';
 
 		function get(key) {
 			if (!eventArrayObj[key]) {
