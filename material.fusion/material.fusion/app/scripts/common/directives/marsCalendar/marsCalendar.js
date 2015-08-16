@@ -123,8 +123,7 @@ var marsCalendarControl = {};
     }
 
     function addEvent(date, jsEvent, view) {
-        var calendarEvent = calendarService.addEvent($scope.newEvent);
-        calendarService.addNewEventToCalendar($scope.eventSources, $scope.events, calendarEvent);
+        calendarService.addEvent($scope.eventSources, $scope.events, $scope.newEvent);
     }
 
     function updateEvent (date, jsEvent, view, modifiedEvent) {

@@ -10,7 +10,7 @@ angular.module('marsCalendar.marsCalendarService', [])
         	return new Date(date + ' ' + time);
     	}
     	
-		function getUniqueId() {
+		function getUniqueIdFromTimeStamp() {
 		    var d = new Date(),
 		        m = d.getMilliseconds() + "",
 		        u = ++d + m + (++c === 10000 ? (c = 1) : c);
@@ -39,29 +39,27 @@ angular.module('marsCalendar.marsCalendarService', [])
 	        return newEvent; 
     	}
 
-    	function addEvent(dateEvent) {    		
+    	function addEvent(eventSources, events, dateEvent) {    		
 	        var calendarEvent = getCalendarEventFrom(dateEvent);  
 	        save(calendarEvent);
-	        return calendarEvent;
+	        
+	        events.push(calendarEvent);
+	        
+	        // If we push an empty events array into eventSources in loadEvents
+	        // it will always reference the empty event array!
+	        // So we have to do a null check here upon first event create.  
+	        if (_.isEmpty(eventSources)) eventSources.push(events);
     	}
 
     	function getCalendarEventFrom(dateEvent) {
     		var calendarEvent = angular.copy(dateEvent);
-    		var eventKey = getUniqueId();
+    		var eventKey = getUniqueIdFromTimeStamp();
     		calendarEvent._id = calendarEvent.id = eventKey;
     		calendarEvent.eventKey = eventKey;
     		calendarEvent.start = formatDateTime(dateEvent.startDate, dateEvent.startTime);
     		calendarEvent.end = formatDateTime(dateEvent.endDate, dateEvent.endTime);
     		
     		return calendarEvent;
-    	}
-
-    	function addNewEventToCalendar(eventSources, events, calendarEvent) {
-    		events.push(calendarEvent);
-	        // If we push an empty events array into eventSources in loadEvents
-	        // it will always reference the empty event array!
-	        // So we have to do a null check here upon first event create.  
-	        if (_.isEmpty(eventSources)) eventSources.push(events);
     	}
 
 		function getAllBy(eventType) {
@@ -89,7 +87,6 @@ angular.module('marsCalendar.marsCalendarService', [])
 			getNewEventBy: getNewEventBy,
 			updateEvent: updateEvent,
 			addEvent: addEvent,
-			addNewEventToCalendar: addNewEventToCalendar,
 			getAllBy: getAllBy,
 			remove: remove   
 		};
