@@ -76,7 +76,6 @@ var marsCalendarControl = {};
         $ionicPopup.show({
             templateUrl: 'scripts/common/directives/marsCalendar/html/edit-event.html',
             title: date.title,
-            subTitle: 'Please use normal things',
             scope: $scope,
             buttons: [
                 { 
@@ -106,7 +105,6 @@ var marsCalendarControl = {};
         $ionicPopup.show({
             templateUrl: 'scripts/common/directives/marsCalendar/html/new-event.html',
             title: 'New Event',
-            subTitle: 'Please use normal things',
             scope: $scope,
             buttons: [
                 { text: 'Cancel' },

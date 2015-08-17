@@ -18,7 +18,7 @@ angular.module('marsCalendar.marsCalendarService', [])
 		}
 
 		function updateEvent(events, calendarEvent) {
-			var index = _.indexOf(events, _.find(events, 'id', calendarEvent.id));
+			var index = _.indexOf(events, _.find(events, '_id', calendarEvent._id));
 	        calendarEvent.start = formatDateTime(calendarEvent.startDate, calendarEvent.startTime);
 	        calendarEvent.end = formatDateTime(calendarEvent.endDate, calendarEvent.endTime);
 	        events[index] = calendarEvent;
@@ -36,6 +36,7 @@ angular.module('marsCalendar.marsCalendarService', [])
 	        newEvent.location = 'Devonport Primary School';
 	        newEvent.note = '';
 	        newEvent.eventType = eventType;
+	        newEvent.repeat = false;
 	        return newEvent; 
     	}
 
@@ -55,7 +56,6 @@ angular.module('marsCalendar.marsCalendarService', [])
     		var calendarEvent = angular.copy(dateEvent);
     		var eventKey = getUniqueIdFromTimeStamp();
     		calendarEvent._id = calendarEvent.id = eventKey;
-    		calendarEvent.eventKey = eventKey;
     		calendarEvent.start = formatDateTime(dateEvent.startDate, dateEvent.startTime);
     		calendarEvent.end = formatDateTime(dateEvent.endDate, dateEvent.endTime);
     		
@@ -72,7 +72,7 @@ angular.module('marsCalendar.marsCalendarService', [])
 		}
 
 		function save(calendarEvent) {
-			DataAccessService.set(getModelNameBy(calendarEvent.eventType), calendarEvent.id, calendarEvent);
+			DataAccessService.set(getModelNameBy(calendarEvent.eventType), calendarEvent._id, calendarEvent);
 		}
 
 		function remove(key) {

@@ -12,30 +12,52 @@
     <!-- Have to wrap the date picker inside a ion-list to disable the 300ms tab feature -->
     <div class="animate-hide" ng-show="!editEvent.allDay">
         <div class="row">
-            <ion-list class="no-border col col-33" data-tap-disabled="true">    
+            <ion-list class="no-border col col-50" data-tap-disabled="true">    
                 <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" ng-model="editEvent.startDate" placeholder="{{editEvent.startDate}}"/>
             </ion-list>
 
-            <mars-clock-picker id="startTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="editEvent.startTime"></mars-clock-picker>
+            <mars-clock-picker id="startTimePicker" options="clockPickerOptions" css-class="col col-offset-33" time="editEvent.startTime"></mars-clock-picker>
         </div>
 
         <div class="row">
-            <ion-list class="no-border col col-33" data-tap-disabled="true">
+            <ion-list class="no-border col col-50" data-tap-disabled="true">
                 <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" ng-model="editEvent.endDate" placeholder="{{editEvent.endDate}}"/>
             </ion-list>
 
-            <mars-clock-picker id="endTimePicker" options="clockPickerOptions" css-class="col col-33 col-offset-67" time="editEvent.endTime"></mars-clock-picker>
+            <mars-clock-picker id="endTimePicker" options="clockPickerOptions" css-class="col col-offset-33" time="editEvent.endTime"></mars-clock-picker>
         </div>
+    </div>
+
+    <label class="item item-icon-left no-border">
+        <i class="icon ion-ios-loop-strong"></i>
+        <ion-toggle id="repeatToggle" ng-click="editEvent.repeatWeekly=editEvent.repeatMonthly=editEvent.repeatYearly=false" ng-model="editEvent.repeat" toggle-class="toggle-calm">Repeat</ion-toggle>
+    </label>
+    <div class="animate-hide" ng-show="editEvent.repeat">
+        <ul class="list">
+            <li class="no-border item item-checkbox">
+                Weekly
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="editEvent.repeatWeekly" ng-click="editEvent.repeatWeekly? editEvent.repeatMonthly = editEvent.repeatYearly = false : false">
+                </label>
+            </li>
+            <li class="no-border item item-checkbox">
+                Monthly
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="editEvent.repeatMonthly" ng-click="editEvent.repeatMonthly? editEvent.repeatWeekly = editEvent.repeatYearly = false : false">
+                </label>
+            </li>
+            <li class="no-border item item-checkbox">
+                Yearly
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="editEvent.repeatYearly" ng-click="editEvent.repeatYearly? editEvent.repeatMonthly = editEvent.repeatWeekly = false : false">
+                </label>
+            </li>
+        </ul>
     </div>
 
     <label class="item item-icon-left no-border">
     	<i class="icon ion-ios-location"></i>
     	<input type="text" ng-model="editEvent.location" placeholder="Add location">
-    </label>
-
-    <label class="item item-icon-left no-border">
-        <i class="icon ion-ios-bell"></i>
-        <input type="text" placeholder="Notification">
     </label>
 
     <label class="item item-icon-left no-border">
@@ -51,10 +73,5 @@
       <label class="item item-icon-left no-border">
         	<i class="icon ion-document"></i>
         	<input type="text" ng-model="editEvent.note" placeholder="Add note">
-      </label>
-
-      <label class="item item-icon-left no-border">
-        	<i class="icon ion-paperclip"></i>
-        	<input type="text" placeholder="Add attachment">
       </label>
 </div>
