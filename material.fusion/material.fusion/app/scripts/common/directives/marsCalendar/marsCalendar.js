@@ -9,6 +9,7 @@ var marsCalendarControl = {};
         setDefaults();
         loadEvents();
         setConfigs();
+        loadEevntsOnDemand();
     }
 
     function initWith(injectedValues) {
@@ -27,6 +28,15 @@ var marsCalendarControl = {};
         setClockPickerConfig();
         setDatePickerConfig();
         setCalendarConfig();
+    }
+
+    function loadEevntsOnDemand() {
+        $scope.lazyEvents = eventOnDemand;
+        $scope.eventSources.push($scope.lazyEvents);        
+    }
+
+    function eventOnDemand(start, end, timezone, callback) {
+        return calendarService.loadEevntsOnDemand($scope.eventType, start, end, timezone);
     }
 
     function loadEvents () {

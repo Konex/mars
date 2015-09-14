@@ -30,26 +30,20 @@
 
     <label class="item item-icon-left no-border">
         <i class="icon ion-ios-loop-strong"></i>
-        <ion-toggle id="repeatToggle" ng-click="newEvent.repeatWeekly=newEvent.repeatMonthly=newEvent.repeatYearly=false" ng-model="newEvent.repeat" toggle-class="toggle-calm">Repeat</ion-toggle>
+        <ion-toggle id="repeatToggle" ng-click="newEvent.repeatWeekly=newEvent.repeatMonthly=false" ng-model="newEvent.repeat" toggle-class="toggle-calm">Repeat</ion-toggle>
     </label>
     <div class="animate-hide" ng-show="newEvent.repeat">
         <ul class="list">
             <li class="no-border item item-checkbox">
                 Weekly
                 <label class="checkbox">
-                    <input type="checkbox" ng-model="newEvent.repeatWeekly" ng-click="newEvent.repeatWeekly? newEvent.repeatMonthly = newEvent.repeatYearly = false : false">
+                    <input type="checkbox" ng-model="newEvent.repeatWeekly" ng-click="newEvent.repeatWeekly? newEvent.repeatMonthly = false : false">
                 </label>
             </li>
             <li class="no-border item item-checkbox">
                 Monthly
                 <label class="checkbox">
-                    <input type="checkbox" ng-model="newEvent.repeatMonthly" ng-click="newEvent.repeatMonthly? newEvent.repeatWeekly = newEvent.repeatYearly = false : false">
-                </label>
-            </li>
-            <li class="no-border item item-checkbox">
-                Yearly
-                <label class="checkbox">
-                    <input type="checkbox" ng-model="newEvent.repeatYearly" ng-click="newEvent.repeatYearly? newEvent.repeatMonthly = newEvent.repeatWeekly = false : false">
+                    <input type="checkbox" ng-model="newEvent.repeatMonthly" ng-click="newEvent.repeatMonthly? newEvent.repeatWeekly = false : false">
                 </label>
             </li>
         </ul>
