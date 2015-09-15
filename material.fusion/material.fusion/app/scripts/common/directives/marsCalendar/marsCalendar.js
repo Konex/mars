@@ -36,7 +36,8 @@ var marsCalendarControl = {};
     }
 
     function eventOnDemand(start, end, timezone, callback) {
-        return calendarService.loadEevntsOnDemand($scope.eventType, start, end, timezone);
+        var events = calendarService.loadEevntsOnDemand($scope.eventType, start, end, timezone);
+        callback(events);
     }
 
     function loadEvents () {
