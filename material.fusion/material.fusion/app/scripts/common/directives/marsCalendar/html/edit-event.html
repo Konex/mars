@@ -30,10 +30,17 @@
 
     <label class="item item-icon-left no-border">
         <i class="icon ion-ios-loop-strong"></i>
-        <ion-toggle id="repeatToggle" ng-click="editEvent.repeatWeekly=editEvent.repeatMonthly=false" ng-model="editEvent.repeat" toggle-class="toggle-calm">Repeat</ion-toggle>
+        <ion-toggle id="repeatToggle" ng-click="editEvent.repeatWeekly=editEvent.repeatMonthly=false" ng-model="editEvent.repeatable" toggle-class="toggle-calm">Repeat</ion-toggle>
     </label>
-    <div class="animate-hide" ng-show="editEvent.repeat">
+    <div class="animate-hide" ng-show="editEvent.repeatable">
         <ul class="list">
+            <ion-list class="no-border col col-50" data-tap-disabled="true">     
+                <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" data-value="{{editEvent.repeat.start}}" ng-model="editEvent.repeat.start" placeholder="{{editEvent.repeat.start}}"/>
+            </ion-list>
+            <ion-list class="no-border col col-50" data-tap-disabled="true">     
+                <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" data-value="{{editEvent.repeat.end}}" ng-model="editEvent.repeat.end" placeholder="{{editEvent.repeat.end}}"/>
+            </ion-list>    
+
             <li class="no-border item item-checkbox">
                 Weekly
                 <label class="checkbox">

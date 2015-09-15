@@ -16,22 +16,28 @@ angular.module('marsCalendar.marsCalendarService', [])
 		}
 
 		function getEventsBetween(start, end, allEvents) {
-			var events = getNormalEvents(start, end, allEvents); 
+			var normalEvents = getNormalEvents(start, end, allEvents); 
 			var repeatitiveEvents = getRepeatitiveEvents(start, end, allEvents);
-			events.push.apply(events, repeatitiveEvents);
+			var events = [];
+			if (normalEvents.length > 0) events = events.concat(normalEvents);
+			if (repeatitiveEvents.length > 0) events = events.concat(repeatitiveEvents);
 			return events;
 		}
 
 		function getNormalEvents(start, end, allEvents) {
 			return _.filter(allEvents, function(eventItem) {
-				return  (start <= eventItem.start && eventItem.start <= end) ||
-						(start <= eventItem.end && eventItem.end <= end);
+
+				return  eventItem.repeatable == false && 
+						(
+							(start.toDate() <= eventItem.start && eventItem.start <= end.toDate()) ||
+							(start.toDate() <= eventItem.end && eventItem.end <= end.toDate())
+						);
 			});
 		}
 
 		function getRepeatitiveEvents(start, end, allEvents) {
 			var repeatableEvents = _.filter(allEvents, function(eventItem){ 
-				return !(end < eventItem.repeat.start || eventItem.repeat.end < start);  
+				return !(end.isBefore(eventItem.repeat.start) || start.isAfter(eventItem.repeat.end));  
 			});
 
 			var repeatitiveEvents = [];
@@ -43,33 +49,54 @@ angular.module('marsCalendar.marsCalendarService', [])
 			return repeatitiveEvents;
 		}
 
-		function repeatWeekly(start, end, eventToRepeat) {
-			var firstDayToRepeat = getFirstDayToRepeat(start, end, eventToRepeat);
+		function repeatWeekly(start, end, eventToBeRepeated) {
+			var firstDayToRepeat = getFirstDayToRepeat(start, end, eventToBeRepeated);
 			var repeatRate = 7;
-			return repeatFrom(firstDayToRepeat, repeatRate, end);
+			return repeatFrom(firstDayToRepeat, eventToBeRepeated, repeatRate, end);
 		}
 
-		function getFirstDayToRepeat(start, end, eventToRepeat) {
-			var firstDayToRepeat = eventToRepeat.repeat.start;
+		function getFirstDayToRepeat(start, end, eventToBeRepeated) {
+			var firstDayToRepeat = new Date(eventToBeRepeated.repeat.start);
 			var oneDayInSeconds = 86400000;
-			while(firstDayToRepeat < start) {
+			while(start.isAfter(firstDayToRepeat)) {
 				firstDayToRepeat = new Date(firstDayToRepeat.getTime() + oneDayInSeconds);
 			}
 			return firstDayToRepeat;
 		}
 
-		function repeatFrom(firstDayToRepeat, repeatRate, end) {
+		function repeatFrom(firstDayToRepeat, eventToBeRepeated, repeatRate, end) {
 			var repeats = [];
-			var repeatDate = angular.copy(firstDayToRepeat);
-			while(repeatDate <= end) {
-				repeats.push(repeatDate);
-				repeatDate = new Date(firstDayToRepeat.getTime() + repeatRate * 86400000);
+			var repeatDate = firstDayToRepeat;
+			while(end.isAfter(repeatDate) || end.isSame(repeatDate)) {
+				var repeatEvent = getEventFrom(eventToBeRepeated, repeatDate);
+				repeats.push(repeatEvent);
+				repeatDate = new Date(repeatDate.getTime() + repeatRate * 86400000);
 			}
 			return repeats;
 		}
 
+		function getEventFrom(eventToBeRepeated, repeatDate) {
+			var newEvent = {};
+			newEvent.repeat = {};
+			newEvent.title = eventToBeRepeated.title;
+	        newEvent.allDay = eventToBeRepeated.allDay;
+	        newEvent.startDate = moment(repeatDate).format('LL');
+			newEvent.endDate = moment(repeatDate).format('LL');
+	        newEvent.startTime = eventToBeRepeated.startTime;
+	        newEvent.endTime = eventToBeRepeated.endTime;
+	        newEvent.location = eventToBeRepeated.location;
+	        newEvent.note = eventToBeRepeated.note;
+	        newEvent.repeatable = eventToBeRepeated.repeatable;
+	        newEvent.repeatWeekly = eventToBeRepeated.repeatWeekly;
+	        newEvent.repeatMonthly = eventToBeRepeated.repeatMonthly;
+		    newEvent.repeat.start = eventToBeRepeated.repeat.start;
+		    newEvent.repeat.end = eventToBeRepeated.repeat.end;	
+	        return newEvent;
+		}
+
 		function getNewEventBy(date, eventType) {
 	        var newEvent = {};
+	        newEvent.repeat = {};
 	        newEvent.title = "";
 	        newEvent.allDay = false;
 	        newEvent.startDate = date.format('LL');
@@ -79,10 +106,11 @@ angular.module('marsCalendar.marsCalendarService', [])
 	        newEvent.location = 'Devonport Primary School';
 	        newEvent.note = '';
 	        newEvent.eventType = eventType;
-	        newEvent.repeat = {};
-	        newEvent.repeat.repeatType = '';
-		    newEvent.repeat.start = '';
-		    newEvent.repeat.end = '';	
+	        newEvent.repeatable = false;
+	        newEvent.repeatWeekly = false;
+	        newEvent.repeatMonthly = false;
+		    newEvent.repeat.start = date.format('LL');
+		    newEvent.repeat.end = date.format('LL');	
 	        return newEvent; 
     	}
 
