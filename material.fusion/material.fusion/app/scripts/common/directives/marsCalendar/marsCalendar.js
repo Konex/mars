@@ -9,7 +9,6 @@ var marsCalendarControl = {};
         setDefaults();
         loadEvents();
         setConfigs();
-        loadEevntsOnDemand();
     }
 
     function initWith(injectedValues) {
@@ -30,14 +29,13 @@ var marsCalendarControl = {};
         setCalendarConfig();
     }
 
-    function loadEevntsOnDemand() {
-        $scope.lazyEvents = eventOnDemand;
-        $scope.eventSources.push($scope.lazyEvents);        
-    }
-
     function eventOnDemand(start, end, timezone, callback) {
-        var events = calendarService.loadEevntsOnDemand($scope.eventType, start, end, timezone);
-        callback(events);
+        var promise = calendarService.loadEevntsOnDemand($scope.eventType, start, end, timezone); 
+        promise.then(function(data) {
+            if (!_.isEmpty(data)) {
+                callback(data);    
+            }     
+        });
     }
 
     function loadEvents () {
@@ -75,9 +73,14 @@ var marsCalendarControl = {};
                 },
                 dayClick: dayClick,
                 eventClick: eventClick,
-                eventDrop: eventDrop
+                eventDrop: eventDrop,
+                eventRender: eventRender
             }
         };
+    }
+
+    function eventRender(event, element, view) {
+        return calendarService.onEventRender(event);
     }
 
     function eventClick (date, jsEvent, view) {

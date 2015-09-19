@@ -30,30 +30,15 @@
 
     <label class="item item-icon-left no-border">
         <i class="icon ion-ios-loop-strong"></i>
-        <ion-toggle id="repeatToggle" ng-click="newEvent.repeatWeekly=newEvent.repeatMonthly=false" ng-model="newEvent.repeatable" toggle-class="toggle-calm">Repeat</ion-toggle>
+        <ion-toggle id="repeatToggle" ng-click="newEvent.repeatable = !newEvent.repeatable" ng-model="newEvent.repeatable" toggle-class="toggle-calm">Repeat Weekly</ion-toggle>
     </label>
-    <div class="animate-hide" ng-show="newEvent.repeatable">
-        <ul class="list">
-            <ion-list class="no-border col col-50" data-tap-disabled="true">     
-                <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" data-value="{{newEvent.repeat.start}}" ng-model="newEvent.repeat.start" placeholder="{{newEvent.repeat.start}}"/>
-            </ion-list>
-            <ion-list class="no-border col col-50" data-tap-disabled="true">     
-                <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" data-value="{{newEvent.repeat.end}}" ng-model="newEvent.repeat.end" placeholder="{{newEvent.repeat.end}}"/>
-            </ion-list>
-                
-            <li class="no-border item item-checkbox">
-                Weekly
-                <label class="checkbox">
-                    <input type="checkbox" ng-model="newEvent.repeatWeekly" ng-click="newEvent.repeatWeekly? newEvent.repeatMonthly = false : false">
-                </label>
-            </li>
-            <li class="no-border item item-checkbox">
-                Monthly
-                <label class="checkbox">
-                    <input type="checkbox" ng-model="newEvent.repeatMonthly" ng-click="newEvent.repeatMonthly? newEvent.repeatWeekly = false : false">
-                </label>
-            </li>
-        </ul>
+    <div class="animate-hide row" ng-show="newEvent.repeatable">
+        <ion-list class="no-border col col-50" data-tap-disabled="true">     
+            <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" data-value="{{newEvent.repeat.start}}" ng-model="newEvent.repeat.start" placeholder="{{newEvent.repeat.start}}"/>
+        </ion-list>
+        <ion-list class="no-border col col-50" data-tap-disabled="true">     
+            <input type="text" pick-a-date="date" pick-a-date-options="datePickerOptions" data-value="{{newEvent.repeat.end}}" ng-model="newEvent.repeat.end" placeholder="{{newEvent.repeat.end}}"/>
+        </ion-list>
     </div>
 
 
