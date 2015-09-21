@@ -1,6 +1,6 @@
 'use strict';
 
-var features = angular.module('features', [
+angular.module('features', [
 	'features.eventCalendar',
 	'features.organization',
 	'features.home',
