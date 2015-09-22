@@ -1,9 +1,6 @@
 'use strict';
 
 angular.module('features.eventCalendar', [
-	'ui.calendar',
-	'angular-datepicker',
-	'marsTimePicker',
 	'features.calendarController'
 ])
 .config([

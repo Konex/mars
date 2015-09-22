@@ -57,12 +57,12 @@
 		organization.init = init;
 	})();
 
-	function organizationCtrl ($scope, $q, EventCalendarService) {
+	function organizationCtrl ($scope, $q) {
 		organization.init($scope);
 	}
 
 	angular.module('features.organization.organizationController', [])
 	.controller('OrganizationCtrl', organizationCtrl);
 
-	organizationCtrl.$inject = ['$scope', '$q', 'EventCalendarService'];
+	organizationCtrl.$inject = ['$scope', '$q'];
 })();
