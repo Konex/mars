@@ -1,13 +1,9 @@
 (function() {
   'use strict';
 
-  var pulse = angular.module('features.pulse', [
-  ]);
-
-  pulse.config([
-  	'$stateProvider',
-    '$urlRouterProvider',
-    'ACCESS_LEVEL',
+  angular.module('features.pulse', [
+  ])
+  .config(['$stateProvider','$urlRouterProvider','ACCESS_LEVEL',
 
     function($stateProvider, $urlRouterProvider, ACCESS_LEVEL) {
 

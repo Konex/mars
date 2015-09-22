@@ -15,9 +15,10 @@
 	                return this;
 	}
 	 
-	 
 	angular.module('common.services.messaging.busService', [])
 	.service('BusService', busService);
+
+	busService.$inject = ['$rootScope'];
 })(); 
  
 

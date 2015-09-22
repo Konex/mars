@@ -16,4 +16,6 @@
         };
     }
     angular.module('common.services.auth.authInterceptor', []).factory('AuthInterceptor', authInterceptor);
+
+    authInterceptor.$inject = ['$rootScope', '$q', 'AUTH_EVENTS'];
 })();

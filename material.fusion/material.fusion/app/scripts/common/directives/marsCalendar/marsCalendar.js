@@ -154,8 +154,6 @@
         marsCalendarControl.init = init;
     })();
 
-
-
     function calendarCtrl($scope, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
         var injectedValues = {
             _scope: $scope,
@@ -165,8 +163,6 @@
         };
         marsCalendarControl.init(injectedValues);
     }
-
-
 
     function marsCalendar ($q, $ionicPopup, uiCalendarConfig, MarsCalendarService) {
       return {
@@ -178,8 +174,14 @@
         controller: calendarCtrl
       };
     }
+
     angular
       .module('common.directives.marsCalendar', 
         ['ui.calendar', 'angular-datepicker', 'marsClockPicker', 'marsCalendar.marsCalendarService'])
       .directive('marsCalendar', marsCalendar);
+
+
+    marsCalendar.$inject = ['$q', '$ionicPopup', 'uiCalendarConfig', 'MarsCalendarService'];
+
+    calendarCtrl.$inject = ['$scope', '$ionicPopup', 'uiCalendarConfig', 'MarsCalendarService'];  
 })();  

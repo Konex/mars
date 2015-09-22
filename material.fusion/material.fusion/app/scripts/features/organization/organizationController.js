@@ -63,4 +63,6 @@
 
 	angular.module('features.organization.organizationController', [])
 	.controller('OrganizationCtrl', organizationCtrl);
+
+	organizationCtrl.$inject = ['$scope', '$q', 'EventCalendarService'];
 })();

@@ -1,17 +1,12 @@
 (function() {
   'use strict';
 
-  var me = angular.module('features.me', [
-  ]);
-
-  me.config([
-  	'$stateProvider',
-    '$urlRouterProvider',
-    'ACCESS_LEVEL',
-
+  angular.module('features.me', [
+  ])
+  .config(['$stateProvider','$urlRouterProvider','ACCESS_LEVEL',
     function($stateProvider, $urlRouterProvider, ACCESS_LEVEL) {
-
-  	$stateProvider
+  	
+    $stateProvider
   	.state('tab.me', {
         url: '/me',
         views: {

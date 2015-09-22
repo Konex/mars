@@ -4,10 +4,7 @@ angular.module('features.organization', [
 	'features.organization.organizationController',
 	'features.organization.createOrganizationService'
 ])
-.config([
-	'$stateProvider',
-    '$urlRouterProvider',
-    'ACCESS_LEVEL',
+.config(['$stateProvider','$urlRouterProvider','ACCESS_LEVEL',
     function($stateProvider, $urlRouterProvider, ACCESS_LEVEL) {
 
 	$stateProvider

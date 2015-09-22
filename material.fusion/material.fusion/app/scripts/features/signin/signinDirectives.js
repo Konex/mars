@@ -3,11 +3,7 @@
 
   var signinDirectives = angular.module('features.signinDirectives', [])
 
-
-  signinDirectives.directive('formAutofillFix', [
-      '$timeout',
-
-      function ($timeout) {
+  signinDirectives.directive('formAutofillFix', ['$timeout',function ($timeout) {
           return function (scope, element, attrs) {
               element.prop('method', 'post');
               if (attrs.ngSubmit) {
@@ -28,10 +24,7 @@
   ]);
 
 
-  signinDirectives.directive('signInDialog', [
-      'AUTH_EVENTS',
-
-      function (AUTH_EVENTS) {
+  signinDirectives.directive('signInDialog', ['AUTH_EVENTS',function (AUTH_EVENTS) {
         return {
           restrict: 'A',
           template: '<div ng-if="visible" ng-include="templates\'features\'me\'signin\'signin.html\'">',
@@ -69,11 +62,7 @@
 
 
   // TODO: wire it up for sign UP feature
-  signinDirectives.directive('ensureUnique', [
-      '$http', 
-      '$timeout', 
-
-      function($http, $timeout) {
+  signinDirectives.directive('ensureUnique', ['$http', '$timeout', function($http, $timeout) {
           var checking = null;
           return {
               require: 'ngModel',

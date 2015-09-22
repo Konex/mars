@@ -1,14 +1,8 @@
 (function() {
 	'use strict';
 
-	var applicationController = angular.module('applicationController', []);
-
-	applicationController.controller('ApplicationController', [
-		'$scope',
-		'USER_ROLES',
-		'AuthService',
-		'EventCalendarService',
-
+	angular.module('applicationController', [])
+	.controller('ApplicationController', ['$scope','USER_ROLES','AuthService','EventCalendarService',
 	  	function ($scope, USER_ROLES, AuthService, EventCalendarService) {
 			$scope.currentUser = null;
 			$scope.userRoles = USER_ROLES;

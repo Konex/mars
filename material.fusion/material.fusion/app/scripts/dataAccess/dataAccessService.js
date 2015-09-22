@@ -1,8 +1,6 @@
 (function() {
 	'use strict';
 
-	var dataAccessService = angular.module('dataAccess.dataAccessService', []);
-
 	var ACCESS_MODE = {
 		api:   'api',
 		local: 'local'
@@ -17,7 +15,8 @@
 		//      
 	};	
 
-	dataAccessService.factory('DataAccessService', [
+	angular.module('dataAccess.dataAccessService', [])
+	.factory('DataAccessService', [
 		'LocalStorageService', 'ApiService', '$q',
 		function (localStorageService, ApiService, $q) {
 

@@ -25,4 +25,6 @@
 	}
 
 	angular.module('features.organization.createOrganizationService' ,[]).service('CreateOrganizationService', createOrganizationService);
+
+	createOrganizationService.$inject = ['$http', '$q', 'ApiService', 'API_NAME', 'Session', 'HOME_RESOURCE'];	
 })();

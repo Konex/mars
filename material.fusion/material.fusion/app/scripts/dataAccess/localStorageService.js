@@ -1,11 +1,8 @@
 (function() {
 	'use strict';
 
-	var localStorageService = angular.module('dataAccess.localStorageService', []);
-
-	localStorageService.factory('LocalStorageService', ['$localForage', '$q', 
-
-		function($localForage, $q) {
+	angular.module('dataAccess.localStorageService', [])
+	.factory('LocalStorageService', ['$localForage', '$q', function($localForage, $q) {
 
 			function getItem(modelName, key) {
 				$localForage.getItem(modelName + key).then(function(data) {

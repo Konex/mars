@@ -20,4 +20,6 @@
     }
 
     angular.module('features.signinController', []).controller('SignInCtrl', signInCtrl);
+
+    signInCtrl.$inject = ['$scope', '$rootScope', '$state', 'AUTH_EVENTS', 'AuthService'];
 })();

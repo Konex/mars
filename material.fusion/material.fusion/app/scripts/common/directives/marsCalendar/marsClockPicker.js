@@ -1,9 +1,8 @@
 (function() {
 	'use strict';
 
-	var marsTimePickerMudle = angular.module('marsClockPicker', []);
-
-	marsTimePickerMudle.controller('marsClockPickerController', ['$scope', '$timeout', function ($scope, $timeout) {
+	angular.module('marsClockPicker', [])
+	.controller('marsClockPickerController', ['$scope', '$timeout', function ($scope, $timeout) {
 	}])
 	.directive('marsClockPicker', ['$rootScope', function ($rootScope) {
 		return {
@@ -725,5 +724,4 @@
 					'<input id="{{id}}" type="text" class="clockpicker {{cssClass}}" value="{{time}}">'
 		};
 	}]);
-
 })();

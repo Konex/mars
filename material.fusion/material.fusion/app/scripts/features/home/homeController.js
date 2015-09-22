@@ -37,4 +37,6 @@
 	}
 
 	angular.module('features.home.homeController', []).controller('HomeCtrl', homeCtrl);
+
+	homeCtrl.$inject = ['$scope', '$state'];
 })();

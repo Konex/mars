@@ -13,9 +13,7 @@
 
 
 
-    mars.run(['$ionicPlatform',
-
-        function($ionicPlatform) {
+    mars.run(['$ionicPlatform', function($ionicPlatform) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -30,9 +28,7 @@
     }]);
 
 
-    mars.factory('_', [
-        '$window',
-        function($window) {
+    mars.factory('_', ['$window',function($window) {
             // place lodash include before angular
             return $window._;
         }
@@ -40,18 +36,12 @@
 
 
 
-    mars.run([
-        '$rootScope',
-        '$window', 
-
-        function ($rootScope, $window) {
+    mars.run(['$rootScope','$window', function ($rootScope, $window) {
             $rootScope._ = $window._;
     }]);
 
 
-    mars.run(['$rootScope', 'AUTH_EVENTS', 'AuthService',
-
-        function ($rootScope, AUTH_EVENTS, AuthService) {
+    mars.run(['$rootScope', 'AUTH_EVENTS', 'AuthService',function ($rootScope, AUTH_EVENTS, AuthService) {
 
         $rootScope.$on('$stateChangeStart', 
             function (event, toState, toParams, fromState, fromParams) {
@@ -75,8 +65,7 @@
     }]);
 
 
-    mars.config(['$stateProvider', '$urlRouterProvider', 
-        function($stateProvider, $urlRouterProvider) {
+    mars.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
         $stateProvider
             .state('tab', {
