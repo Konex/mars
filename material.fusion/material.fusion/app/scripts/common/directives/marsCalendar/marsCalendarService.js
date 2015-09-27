@@ -101,8 +101,11 @@ angular.module('marsCalendar.marsCalendarService', [])
 		}
 
 		function onEventRender(calendarEvent) {
-			 return calendarEvent.start.isBefore(calendarEvent.repeat.end) &&
-			 		calendarEvent.end.isAfter(calendarEvent.repeat.start);
+			if (calendarEvent.repeatable) {
+				return calendarEvent.start.isBefore(calendarEvent.repeat.end) &&
+			 		calendarEvent.end.isAfter(calendarEvent.repeat.start);	
+			}
+			return true;
 		}
 
 		return {
